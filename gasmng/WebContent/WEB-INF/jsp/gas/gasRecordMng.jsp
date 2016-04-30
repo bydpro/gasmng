@@ -68,7 +68,7 @@
 		getData();
 
 	})
-
+	/* 删除加油记录*/
 	function delGasRecord() {
 		var row = $('#gasDg').datagrid('getSelected');
 		if (row) {
@@ -98,7 +98,7 @@
 		$('#gasDlg').dialog('open').dialog('setTitle', '新增记录');
 		$('#gasForm').form('clear');
 	}
-	
+	/*  保存加油记录*/
 	function saveGasRecord() {
 		$('#gasForm').form('submit', {
 			url : "oilStorage/saveGasRecord.do",
@@ -120,7 +120,7 @@
 			}
 		});
 	}
-	
+	/* 打开修改界面 */
 	function editGasRecord() {
 		var row = $('#gasDg').datagrid('getSelected');
 		if (row) {

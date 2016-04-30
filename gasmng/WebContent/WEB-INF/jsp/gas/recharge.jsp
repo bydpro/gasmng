@@ -35,7 +35,7 @@ input.labelauty + label{font:12px "Microsoft Yahei";}
 		$("#reMoneyLable").html("￥ " + value + ".00");
 	}
 
-
+	/*保存充值  */
 	function reMoney() {
 		var money = $("#reMoney").val();
 		if (money) {

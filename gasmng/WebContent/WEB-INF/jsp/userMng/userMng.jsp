@@ -37,7 +37,7 @@
 		$('#fm').form('clear');
 	}
 	
-	
+	/* 修改用户 */
 	function editUser(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){
@@ -56,7 +56,7 @@
 			$.messager.alert('提示','请选中一行!');
 		}
 	}
-	
+	/* 删除用户 */
 	function delUser(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){
@@ -79,7 +79,7 @@
 			$.messager.alert('提示','请选中一行!');
 		}
 	}
-	
+	/* 保存用户信息 */
 	function saveUser() {
 		$('#fm').form('submit', {
 			url : "userMng/saveUser.do",
@@ -127,7 +127,7 @@
 			return '未知';
 		}
 	}
-	
+	/* 注销用户 */
 	function layoutUser(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){
@@ -154,7 +154,7 @@
 			$.messager.alert('提示','请选中一行!');
 		}
 	}
-	
+	/* 取消注销 */
 	function unLayoutUser(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){
@@ -181,12 +181,13 @@
 			$.messager.alert('提示','请选中一行!');
 		}
 	}
+	/*  获取查询用户列表*/
 	function getData() {
 		$.post('userMng/queryUserList.do?' + Math.random(), $('#ff').serializeObject(), function(data) {
 			$('#dg').datagrid({loadFilter : pagerFilter}).datagrid('loadData', data);
 		});
 	}
-
+	/*分页数据格式转换  */
 	function pagerFilter(data) {
 		if (typeof data.length == 'number' && typeof data.splice == 'function') { // is array
 			data = {
@@ -223,7 +224,7 @@ $(function() {
 	getData();
 	
 })
-	
+	/*  设置为系统管理员*/
 	function isXTAdmin(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){
@@ -250,7 +251,7 @@ $(function() {
 			$.messager.alert('提示','请选中一行!');
 		}
 	}
-	
+	/* 设置为普通管理员*/
 	function isAdmin(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){
@@ -277,7 +278,7 @@ $(function() {
 			$.messager.alert('提示','请选中一行!');
 		}
 	}
-	
+	/* 设置为普通用户*/
 	function isNormalUser(){
 		var row = $('#dg').datagrid('getSelected');
 		if (row){

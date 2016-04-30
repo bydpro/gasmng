@@ -29,6 +29,11 @@ public class LoginDao {
 		return sessionFactory.getCurrentSession();
 	}
 
+	/** 
+	 * @method 登陆控制
+	 * @author Instant
+	 * @time 2016年4月30日 下午3:54:17
+	 */
 	public String loginIn(String sql, String loginId, String password, HttpServletRequest request) {
 
 		Transaction transaction = getSession().beginTransaction();

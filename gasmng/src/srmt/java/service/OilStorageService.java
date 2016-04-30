@@ -19,49 +19,105 @@ public class OilStorageService {
 	@Autowired
 	private OilDao oilDao;
 
+	/**
+	 * @method 查询入库信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:24:23
+	 */
 	public List<Map> queryOilStorage(HttpServletRequest request) {
 		List<Map> list = oilDao.queryOilStorage(request);
 		return list;
 	}
 	
+	/** 
+	 * @method 删除入库信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:25:47
+	 */
 	public void delOliStirage(String oilStorageId){
 		oilDao.delOliStirage(oilStorageId);
 	}
 	
+	/**
+	 * @method 保存入库信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:24:37
+	 */
 	public void saveOliStirage(HttpServletRequest request){
 		 oilDao.saveOliStirage(request);
 	}
 	
+	/**
+	 * @method 获取修改入库信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:25:17
+	 */
 	public Map getOliStirage(String oilStorageId){
 		return oilDao.getOliStirage(oilStorageId);
 	}
 	
+	/** 
+	 * @method 查询油品类型
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:25:58
+	 */
 	public List<Map> queryOilType() {
 		List<Map> list = oilDao.queryOilType();
 		return list;
 	}
 	
+	/** 
+	 * @method 查询油品记录
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:26:14
+	 */
 	public List<Map> queryGasRecord(HttpServletRequest request) {
 		List<Map> list = oilDao.queryGasRecord(request);
 		return list;
 	}
 	
+	/** 
+	 * @method 删除加油记录
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:27:00
+	 */
 	public void delGasRecord(String gasId){
 		oilDao.delGasRecord(gasId);
 	}
 	
+	/** 
+	 * @method 保存加油记录信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:27:16
+	 */
 	public Map saveGasRecord(HttpServletRequest request){
 		 return oilDao.saveGasRecord(request);
 	}
 	
+	/** 
+	 * @method 获取修改加油记录信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:27:36
+	 */
 	public Map getGasRecord(String gasId){
 		return oilDao.getGasRecord(gasId);
 	}
 	
+	/** 
+	 * @method 查询当前用户加油记录
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:27:52
+	 */
 	public List<Map> queryMyGasRecord(HttpServletRequest request) {
 		List<Map> list = oilDao.queryMyGasRecord(request);
 		return list;
 	}
+	
+	/** 
+	 * @method 获取近6个月的销售信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:39:22
+	 */
 	public Map getOilSalInfo(){
 		   Calendar cal = Calendar.getInstance();
 		    int month = cal.get(Calendar.MONTH) + 1;
@@ -117,6 +173,11 @@ public class OilStorageService {
 		    return mapInfo;
 	}
 	
+	/** 
+	 * @method 获取上一个月的年份和月份
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:40:57
+	 */
 	public Map getSubMonth(int year,int month){
 		if(month<=1){
 			year = year-1;
@@ -130,6 +191,12 @@ public class OilStorageService {
 		return map;
 	}
 
+	
+	/** 
+	 * @method 获取库存信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:39:51
+	 */
 	public Map queryOilStorage4All() {
 		double totalChai = oilDao.queryGasTotal(Constants.OIL_TYPE_CHAI);
 		double totalQI95 = oilDao.queryGasTotal(Constants.OIL_TYPE_QI95);

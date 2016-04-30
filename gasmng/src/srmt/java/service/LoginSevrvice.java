@@ -17,6 +17,11 @@ public class LoginSevrvice {
 	@Autowired
 	private LoginDao loginDao;
 
+	/** 
+	 * @method 登陆控制
+	 * @author Instant
+	 * @time 2016年4月30日 下午3:58:52
+	 */
 	public String loginIn(HttpServletRequest request) {
 		String loginId = request.getParameter("loginId");
 		String password = request.getParameter("password");

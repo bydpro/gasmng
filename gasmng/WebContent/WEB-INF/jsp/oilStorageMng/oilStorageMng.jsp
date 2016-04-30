@@ -60,7 +60,7 @@
 		data.rows = (data.originalRows.slice(start, end));
 		return data;
 	}
-	
+	/*  代开修改界面*/
 	function editOil() {
 		var row = $('#oildg').datagrid('getSelected');
 		if (row) {
@@ -81,7 +81,7 @@
 			$.messager.alert('提示', '请选中一行!');
 		}
 	}
-
+	/*  修改用户记录*/
 	function delOliStirage() {
 		var row = $('#oildg').datagrid('getSelected');
 		if (row) {
@@ -106,7 +106,7 @@
 			$.messager.alert('提示', '请选中一行!');
 		}
 	}
-
+	/* 保存入库记录 */
 	function saveOil() {
 		$('#oilForm').form('submit', {
 			url : "oilStorage/saveOliStirage.do",

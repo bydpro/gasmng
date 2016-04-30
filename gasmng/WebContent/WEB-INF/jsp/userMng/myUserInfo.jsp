@@ -15,7 +15,7 @@
 		$("#errorMsg").text("");
 		$("#errorMsg").hide();
 	});
-
+	/* 保存我的用户信息修改 */
 	function saveMyUser() {
 		$('#myUserForm').form('submit', {
 			url : "userMng/saveUser.do",
@@ -44,7 +44,7 @@
 		$('#fm4MyUser').form('clear');
 		$('#dlg4MyUser').dialog('open').dialog('setTitle', '修改密码');
 	}
-
+	/* 保存密码 */
 	function savePass() {
 		
 		$('#fm4MyUser').form('submit', {
@@ -71,7 +71,7 @@
 			}
 		});
 	}
-	
+	/* 校验两次密码输入是否一致 */
 	function checkPass(){
 		debugger
 		var newPass = $('#newPassword').val();

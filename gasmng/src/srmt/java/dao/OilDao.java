@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import srmt.java.common.Constants;
-import srmt.java.common.MyUtil;
 import srmt.java.entity.GasRecord;
 import srmt.java.entity.OilStorage;
 import srmt.java.entity.SysUser;
@@ -39,6 +37,11 @@ public class OilDao {
 		return sessionFactory.getCurrentSession();
 	}
 
+	/**
+	 * @method 查询入库信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:24:23
+	 */
 	public List<Map> queryOilStorage(HttpServletRequest request) {
 		String oilType = request.getParameter("oilType");
 		String oilTankId = request.getParameter("oilTankId");
@@ -66,6 +69,11 @@ public class OilDao {
 		return queryList;
 	}
 
+	/**
+	 * @method 保存入库信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:24:37
+	 */
 	public void saveOliStirage(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String oilStorageId = request.getParameter("oilStorageId");
@@ -105,6 +113,11 @@ public class OilDao {
 		getSession().close();
 	}
 
+	/**
+	 * @method 获取修改入库信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:25:17
+	 */
 	public Map getOliStirage(String oilStorageId) {
 		Transaction transaction = getSession().beginTransaction();
 		Map oilMap = new HashMap<>();
@@ -121,6 +134,11 @@ public class OilDao {
 		return oilMap;
 	}
 
+	/** 
+	 * @method 删除入库信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:25:47
+	 */
 	public void delOliStirage(String oilStorageId) {
 		Transaction transaction = getSession().beginTransaction();
 		OilStorage oilStorage = getSession().get(OilStorage.class, oilStorageId);
@@ -128,6 +146,11 @@ public class OilDao {
 		transaction.commit();
 	}
 
+	/** 
+	 * @method 查询油品类型
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:25:58
+	 */
 	public List<Map> queryOilType() {
 		Transaction transaction = getSession().beginTransaction();
 		String sql = "select s.dict_name dictname,s.dict_value dictvalue from sys_dict s where s.dict_is_valid=:isValid"
@@ -141,6 +164,11 @@ public class OilDao {
 
 	}
 
+	/** 
+	 * @method 查询油品记录
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:26:14
+	 */
 	public List<Map> queryGasRecord(HttpServletRequest request) {
 		String userName = request.getParameter("userName");
 		String email = request.getParameter("email");
@@ -151,11 +179,11 @@ public class OilDao {
 		sb.append("  	g.gas_id gasid,                                     ");
 		sb.append("    g.gas_price gasprice,                                ");
 		sb.append("    g.gas_volume gasvolume,                              ");
-		sb.append("    DATE_FORMAT(g.gas_time,'%Y-%m-%d %H:%i')  gastime,                                  ");
+		sb.append("    DATE_FORMAT(g.gas_time,'%Y-%m-%d %H:%i')  gastime,   ");
 		sb.append("    g.gas_user_num gasusernum,                           ");
-		sb.append("      s.username username,                         ");
-		sb.append("      s.mobile,                         ");
-		sb.append("      s.email ,                        ");
+		sb.append("      s.username username,                               ");
+		sb.append("      s.mobile,                                          ");
+		sb.append("      s.email ,                                          ");
 		sb.append(" (select sd.dict_name from sys_dict sd where sd.dict_value= g.gas_type) gastype  ");
 		sb.append("  FROM                                                   ");
 		sb.append("  	gas_record g                                        ");
@@ -193,6 +221,11 @@ public class OilDao {
 		return queryList;
 	}
 
+	/** 
+	 * @method 删除加油记录
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:27:00
+	 */
 	public void delGasRecord(String gasId) {
 		Transaction transaction = getSession().beginTransaction();
 		GasRecord gasRecord = getSession().get(GasRecord.class, gasId);
@@ -200,8 +233,13 @@ public class OilDao {
 		transaction.commit();
 	}
 
+	/** 
+	 * @method 保存加油记录信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:27:16
+	 */
 	public Map saveGasRecord(HttpServletRequest request) {
-		Map map =new HashMap<>();
+		Map map = new HashMap<>();
 		String gasId = request.getParameter("gasId");
 		String gasUserNum = request.getParameter("gasUserNum");
 		String gasType = request.getParameter("gasType");
@@ -213,22 +251,22 @@ public class OilDao {
 		query.setParameter("userNum", gasUserNum);
 		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		String userId = "";
-		double money=0;
+		double money = 0;
 		List<Map> list = query.list();
 		if (list != null && list.size() > 0) {
 			Map loginInfo = list.get(0);
 			userId = (String) loginInfo.get("user_id");
 			money = (double) loginInfo.get("user_balance");
-		}else{
+		} else {
 			map.put("error", "当前输入卡号不存在!");
 			return map;
 		}
-		SysUser sysUser =getSession().get(SysUser.class, userId);
+		SysUser sysUser = getSession().get(SysUser.class, userId);
 		if (StringUtils.isNotEmpty(gasId)) {
 			GasRecord gasRecord = getSession().get(GasRecord.class, gasId);
-			double userMoney = Double.valueOf(gasPrice)*Double.valueOf(gasVolume);
-			double myMoney =sysUser.getUserBalance()+gasRecord.getGasPrice()*gasRecord.getGasVolume()-userMoney;
-			if(myMoney<0){
+			double userMoney = Double.valueOf(gasPrice) * Double.valueOf(gasVolume);
+			double myMoney = sysUser.getUserBalance() + gasRecord.getGasPrice() * gasRecord.getGasVolume() - userMoney;
+			if (myMoney < 0) {
 				map.put("error", "用户余额不足,请充值!");
 				return map;
 			}
@@ -241,8 +279,8 @@ public class OilDao {
 			getSession().update(sysUser);
 			map.put("sucesss", true);
 		} else {
-			double userMoney = Double.valueOf(gasPrice)*Double.valueOf(gasVolume);
-			if((sysUser.getUserBalance()-userMoney)<0){
+			double userMoney = Double.valueOf(gasPrice) * Double.valueOf(gasVolume);
+			if ((sysUser.getUserBalance() - userMoney) < 0) {
 				map.put("error", "用户余额不足,请充值!");
 				return map;
 			}
@@ -255,14 +293,19 @@ public class OilDao {
 			gasRecord.setGasTime(ts);
 			gasRecord.setCreaterTime(ts);
 			getSession().save(gasRecord);
-			sysUser.setUserBalance(sysUser.getUserBalance()-userMoney);
+			sysUser.setUserBalance(sysUser.getUserBalance() - userMoney);
 			getSession().update(sysUser);
 			map.put("sucesss", true);
 		}
 		transaction.commit();
 		return map;
 	}
-	
+
+	/** 
+	 * @method 获取修改加油记录信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:27:36
+	 */
 	public Map getGasRecord(String gasId) {
 		Transaction transaction = getSession().beginTransaction();
 		Map gasMap = new HashMap<>();
@@ -278,24 +321,29 @@ public class OilDao {
 		getSession().close();
 		return gasMap;
 	}
-	
+
+	/** 
+	 * @method 查询当前用户加油记录
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:27:52
+	 */
 	public List<Map> queryMyGasRecord(HttpServletRequest request) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("  SELECT                                                 ");
 		sb.append("  	g.gas_id gasid,                                     ");
 		sb.append("    g.gas_price gasprice,                                ");
 		sb.append("    g.gas_volume gasvolume,                              ");
-		sb.append("    DATE_FORMAT(g.gas_time,'%Y-%m-%d %H:%i')  gastime,                                  ");
-		sb.append("   round(g.gas_volume* g.gas_price, 2) userMoney,                                  ");
+		sb.append("    DATE_FORMAT(g.gas_time,'%Y-%m-%d %H:%i')  gastime,   ");
+		sb.append("   round(g.gas_volume* g.gas_price, 2) userMoney,        ");
 		sb.append("    g.gas_user_num gasusernum,                           ");
-		sb.append("      s.username username,                         ");
+		sb.append("      s.username username,                               ");
 		sb.append(" (select sd.dict_name from sys_dict sd where sd.dict_value= g.gas_type) gastype  ");
 		sb.append("  FROM                                                   ");
 		sb.append("  	gas_record g                                        ");
 		sb.append("  LEFT JOIN sys_user s ON g.gas_user_num = s.user_num    where 1=1 ");
 		sb.append("  and g.gas_user_num=:userNum ");
-		HttpSession session =request.getSession();
-		BigInteger userNum =(BigInteger)session.getAttribute("userNum");
+		HttpSession session = request.getSession();
+		BigInteger userNum = (BigInteger) session.getAttribute("userNum");
 		Transaction transaction = getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
@@ -303,35 +351,44 @@ public class OilDao {
 		List<Map> queryList = query.list();
 		return queryList;
 	}
-	
-	public Double queryOilSalVolume(int year,int month,String gasType){
-		String monthStr =Integer.toString(month);
-		int length=monthStr.length();
-		if(length==1){
-			monthStr="0"+monthStr;
+
+	/** 
+	 * @method 查询某年某月的销售量
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:28:31
+	 */
+	public Double queryOilSalVolume(int year, int month, String gasType) {
+		String monthStr = Integer.toString(month);
+		int length = monthStr.length();
+		if (length == 1) {
+			monthStr = "0" + monthStr;
 		}
-		String dateStr=Integer.toString(year)+monthStr;
+		String dateStr = Integer.toString(year) + monthStr;
 		Transaction transaction = getSession().beginTransaction();
 		StringBuffer sb = new StringBuffer();
 		sb.append("  select SUM(gr.gas_volume) gasvolume from gas_record gr  ");
 		sb.append("  where DATE_FORMAT(gr.gas_time,'%Y%m') = :dateStr       ");
 		sb.append("  and gr.gas_type= :gasType                              ");
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
-		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);	
+		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		query.setParameter("dateStr", dateStr);
 		query.setParameter("gasType", gasType);
-		List<Map> queryList = query.list(); 
+		List<Map> queryList = query.list();
 		Map map = new HashMap<>();
-		Double gasVolume=0.0;
-	   if(queryList!=null&&queryList.size()>0){
-		   map=queryList.get(0);
-		   gasVolume=(Double)map.get("gasvolume");
-	   }	
-	  return gasVolume;
+		Double gasVolume = 0.0;
+		if (queryList != null && queryList.size() > 0) {
+			map = queryList.get(0);
+			gasVolume = (Double) map.get("gasvolume");
+		}
+		return gasVolume;
 	}
-	
-	
-	public double queryGasTotal(String gasType){
+
+	/** 
+	 * @method 查询某种油品的进库总量
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:29:56
+	 */
+	public double queryGasTotal(String gasType) {
 		Transaction transaction = getSession().beginTransaction();
 		String sql = "select SUM(os.olil_num)  olilnum from oil_storage os where os.oil_type=:gasType";
 		SQLQuery totalQuery = getSession().createSQLQuery(sql);
@@ -342,24 +399,29 @@ public class OilDao {
 		Map totalMap = new HashMap<>();
 		if (totalList != null && totalList.size() > 0) {
 			totalMap = totalList.get(0);
-			BigDecimal oilnum =(BigDecimal) totalMap.get("olilnum");
+			BigDecimal oilnum = (BigDecimal) totalMap.get("olilnum");
 			oilTotal = oilnum.doubleValue();
 		}
 		return oilTotal;
 	}
-	
-	public double queryOilSalVolume(String gasType){
+
+	/** 
+	 * @method 查询某个油品的销售量
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:29:04
+	 */
+	public double queryOilSalVolume(String gasType) {
 		Transaction transaction = getSession().beginTransaction();
 		String sql = "select sum(gr.gas_volume)  gasvolume  from gas_record gr where gr.gas_type=:gasType";
 		SQLQuery totalQuery = getSession().createSQLQuery(sql);
 		totalQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		totalQuery.setParameter("gasType", gasType);
 		List<Map> totalList = totalQuery.list();
-		double oilTotal =0;
+		double oilTotal = 0;
 		Map totalMap = new HashMap<>();
 		if (totalList != null && totalList.size() > 0) {
 			totalMap = totalList.get(0);
-			oilTotal =(Double) totalMap.get("gasvolume");
+			oilTotal = (Double) totalMap.get("gasvolume");
 		}
 		return oilTotal;
 	}

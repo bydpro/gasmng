@@ -32,13 +32,13 @@
 		
 	})
 	
-
+	/* 获取查询信息 */
 	function getData() {
 		$.post('organMng/queryOragnList.do?' + Math.random(), $('#organFf').serializeObject(), function(data) {
 			$('#organDg').datagrid({loadFilter : pagerFilter}).datagrid('loadData', data);
 		});
 	}
-
+	/*  分页数据格式化*/
 	function pagerFilter(data) {
 		if (typeof data.length == 'number' && typeof data.splice == 'function') { // is array
 			data = {
@@ -68,7 +68,7 @@
 		data.rows = (data.originalRows.slice(start, end));
 		return data;
 	}
-	
+	/*  打开单位修改界面*/
 	function editOrgan() {
 		var row = $('#organDg').datagrid('getSelected');
 		if (row) {
@@ -89,7 +89,7 @@
 			$.messager.alert('提示', '请选中一行!');
 		}
 	}
-
+	/*  删除单位*/
 	function delOrgan() {
 		var row = $('#organDg').datagrid('getSelected');
 		if (row) {
@@ -114,7 +114,7 @@
 			$.messager.alert('提示', '请选中一行!');
 		}
 	}
-
+	/* 保存单位 */
 	function saveOrgan() {
 		$('#submitForm').form('submit', {
 			url : "organMng/saveOrgan.do",
@@ -144,7 +144,7 @@
 			return '否';
 		}
 	}
-
+	/*  注销单位*/
 	function layoutOrgan() {
 		var row = $('#organDg').datagrid('getSelected');
 		if (row) {
@@ -173,7 +173,7 @@
 			$.messager.alert('提示', '请选中一行!');
 		}
 	}
-
+	/* 取消注销 */
 	function unLayoutOrgan() {
 		var row = $('#organDg').datagrid('getSelected');
 		if (row) {

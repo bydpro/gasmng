@@ -1,7 +1,6 @@
 package srmt.java.dao;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +34,11 @@ public class UserDao {
 		return sessionFactory.getCurrentSession();
 	}
 
+	/** 
+	 * @method 查询用户列表
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:01:06
+	 */
 	public List<Map> queryUserList(HttpServletRequest request) {
 		String userName = request.getParameter("userName");
 		String email = request.getParameter("email");
@@ -46,21 +49,21 @@ public class UserDao {
 		String isAdmin = request.getParameter("isAdmin");
 
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SELECT                                               									");
-		sb.append(" 		SU.USERNAME,                                    							    ");
-		sb.append(" 		SU.USER_ID     USERID,                          						    ");
-		sb.append(" 		SU.SEX,                                                 							");
-		sb.append(" 		SU.EMAIL,                                                                         ");
-		sb.append(" 		SU.MOBILE,                                                                      ");
-		sb.append(" 		SU.USER_NUM USERNUM,                                               ");
-		sb.append(" 		SO.ORGAN_NAME ORGANNAME,                                     ");
-		sb.append(" 		SU.IS_VALID       ISVALID,                                                ");
-		sb.append(" 		SU.is_admin       ISADMIN,                                                ");
-		sb.append(" 		SU.user_type       USERTYPE,                                              ");
-		sb.append("     SU.ADRESS,                                                                       ");
-		sb.append("     DATE_FORMAT(SU.BIRTHDAY,'%Y-%m-%d')   BIRTHDAY           ");
-		sb.append("	 FROM                                                                                 ");
-		sb.append(" 		SYS_USER SU                                                                    ");
+		sb.append(" SELECT                                               		");
+		sb.append(" 		SU.USERNAME,                                        ");
+		sb.append(" 		SU.USER_ID     USERID,                              ");
+		sb.append(" 		SU.SEX,                                             ");
+		sb.append(" 		SU.EMAIL,                                           ");
+		sb.append(" 		SU.MOBILE,                                          ");
+		sb.append(" 		SU.USER_NUM USERNUM,                                ");
+		sb.append(" 		SO.ORGAN_NAME ORGANNAME,                            ");
+		sb.append(" 		SU.IS_VALID       ISVALID,                          ");
+		sb.append(" 		SU.is_admin       ISADMIN,                          ");
+		sb.append(" 		SU.user_type       USERTYPE,                        ");
+		sb.append("     SU.ADRESS,                                              ");
+		sb.append("     DATE_FORMAT(SU.BIRTHDAY,'%Y-%m-%d')   BIRTHDAY          ");
+		sb.append("	 FROM                                                       ");
+		sb.append(" 		SYS_USER SU                                         ");
 		sb.append(" 	LEFT JOIN SYS_ORGAN SO ON SU.ORGAN_ID = SO.ORGAN_ID  where 1=1 ");
 		if (StringUtils.isNotEmpty(userName)) {
 			sb.append(" and su.USERNAME like :userName   ");
@@ -123,6 +126,11 @@ public class UserDao {
 		return queryList;
 	}
 
+	/** 
+	 * @method 删除用户
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:01:27
+	 */
 	public void delUser(HttpServletRequest request) {
 		String userId = request.getParameter("userId");
 		Transaction transaction = getSession().beginTransaction();
@@ -131,6 +139,11 @@ public class UserDao {
 		transaction.commit();
 	}
 
+	/** 
+	 * @method 保存用户
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:01:35
+	 */
 	public Map saveUser(HttpServletRequest request) {
 		String userId = request.getParameter("userId");
 		String userName = request.getParameter("userName");
@@ -205,6 +218,11 @@ public class UserDao {
 		return result;
 	}
 
+	/** 
+	 * @method 获取用户信息，用于修改界面加载数据
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:01:53
+	 */
 	public Map getUserInfo(String userId) {
 		Transaction transaction = getSession().beginTransaction();
 		Map userMap = new HashMap<>();
@@ -225,6 +243,11 @@ public class UserDao {
 		return userMap;
 	}
 
+	/** 
+	 * @method 取消注销用户
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:02:23
+	 */
 	public void unLayoutUser(String userId) {
 		Transaction transaction = getSession().beginTransaction();
 		if (StringUtils.isNoneEmpty(userId)) {
@@ -236,6 +259,11 @@ public class UserDao {
 		getSession().close();
 	}
 
+	/** 
+	 * @method 注销用户
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:02:39
+	 */
 	public void layoutUser(String userId) {
 		Transaction transaction = getSession().beginTransaction();
 		if (StringUtils.isNoneEmpty(userId)) {
@@ -247,6 +275,11 @@ public class UserDao {
 		getSession().close();
 	}
 
+	/** 
+	 * @method 判断邮箱是否唯一
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:02:47
+	 */
 	public Boolean isExitEmail(String email, String userId) {
 		Boolean flag = false;
 		String sql = "select * from sys_user where email =:email  ";
@@ -266,6 +299,11 @@ public class UserDao {
 		return flag;
 	}
 
+	/** 
+	 * @method 判断手机号是否唯一
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:03:06
+	 */
 	public Boolean isExitMobile(String mobile, String userId) {
 		Boolean flag = false;
 		String sql = "select * from sys_user where mobile =:mobile  ";
@@ -285,6 +323,11 @@ public class UserDao {
 		return flag;
 	}
 
+	/** 
+	 * @method 修改密码
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:03:24
+	 */
 	public Map savePassword(String password, String userId, String newPassword) {
 		Map result = new HashMap();
 		Transaction transaction = getSession().beginTransaction();
@@ -306,6 +349,11 @@ public class UserDao {
 		return result;
 	}
 
+	/** 
+	 * @method 设置为系统管理员
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:03:35
+	 */
 	public void isXTAdmin(String userId) {
 		Transaction transaction = getSession().beginTransaction();
 		if (StringUtils.isNoneEmpty(userId)) {
@@ -318,6 +366,11 @@ public class UserDao {
 		getSession().close();
 	}
 
+	/** 
+	 * @method 设置为普通管理员
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:04:01
+	 */
 	public void isAdmin(String userId) {
 		Transaction transaction = getSession().beginTransaction();
 		if (StringUtils.isNoneEmpty(userId)) {
@@ -330,6 +383,11 @@ public class UserDao {
 		getSession().close();
 	}
 
+	/** 
+	 * @method 设置为普通用户
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:04:17
+	 */
 	public void isNormalUser(String userId) {
 		Transaction transaction = getSession().beginTransaction();
 		if (StringUtils.isNoneEmpty(userId)) {
@@ -342,6 +400,11 @@ public class UserDao {
 		getSession().close();
 	}
 
+	/** 
+	 * @method 欻性能用户最大userNum
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:04:43
+	 */
 	public Map queryUserNum(String sql) {
 		Transaction transaction = getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sql);
@@ -354,6 +417,11 @@ public class UserDao {
 		return map;
 	}
 
+	/** 
+	 * @method 得到新增用户userNun
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:05:04
+	 */
 	public Long getUserNum() {
 		String sql = "select  CONVERT(max(s.user_num),CHAR) maxNum from sys_user s ";
 		Map map = queryUserNum(sql);
@@ -378,6 +446,11 @@ public class UserDao {
 		return userNum;
 
 	}
+	/** 
+	 * @method 查询用户账户余额
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:05:23
+	 */
 	public Map getMyMoney(HttpServletRequest request){
 		Transaction transaction = getSession().beginTransaction();
 		HttpSession session =request.getSession();
@@ -390,6 +463,11 @@ public class UserDao {
 		return map;
 	}
 	
+	/** 
+	 * @method 用户充值
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:05:46
+	 */
 	public double reMoney(HttpServletRequest request){
 		Transaction transaction = getSession().beginTransaction();
 		HttpSession session =request.getSession();

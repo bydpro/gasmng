@@ -28,19 +28,24 @@ public class OrganDao {
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
+	/** 
+	 * @method 查询单位列表
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:15:02
+	 */
 	public List<Map> queryOragnList(HttpServletRequest request) {
 		String organName = request.getParameter("organName");
 		String organCode = request.getParameter("organCode");
 		String isValid = request.getParameter("isValid");
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SELECT                                    ");
-		sb.append(" 	SO.ORGAN_ID ORGANID,                      ");
+		sb.append(" SELECT                                  ");
+		sb.append(" 	SO.ORGAN_ID ORGANID,                ");
 		sb.append("   SO.ORGAN_NAME ORGANNAME,              ");
 		sb.append("   SO.ORGAN_CODE ORGANCODE,              ");
 		sb.append("   SO.ORGAN_ADDRESS ORGANADDRESS,        ");
-		sb.append("   SO.IS_VALID ISVALID                               ");
-		sb.append(" FROM                                             ");
-		sb.append(" 	SYS_ORGAN SO    WHERE 1=1                                   ");
+		sb.append("   SO.IS_VALID ISVALID                   ");
+		sb.append(" FROM                                    ");
+		sb.append(" 	SYS_ORGAN SO    WHERE 1=1           ");
 		if (StringUtils.isNotEmpty(organName)) {
 			sb.append(" and  SO.ORGAN_NAME LIKE :organName       ");
 		}
@@ -73,6 +78,11 @@ public class OrganDao {
 		return queryList;
 	}
 
+	/** 
+	 * @method 删除单位
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:15:20
+	 */
 	public void delOrgan(HttpServletRequest request) {
 		String organId = request.getParameter("organId");
 		Transaction transaction = getSession().beginTransaction();
@@ -81,6 +91,11 @@ public class OrganDao {
 		transaction.commit();
 	}
 
+	/** 
+	 * @method 取消注销单位
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:15:29
+	 */
 	public void unLayoutOrgan(String organId) {
 		Transaction transaction = getSession().beginTransaction();
 		if (StringUtils.isNotEmpty(organId)) {
@@ -92,6 +107,11 @@ public class OrganDao {
 		getSession().close();
 	}
 
+	/** 
+	 * @method 注销单位
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:15:41
+	 */
 	public void layoutOrgan(String organId) {
 		Transaction transaction = getSession().beginTransaction();
 		if (StringUtils.isNotEmpty(organId)) {
@@ -103,6 +123,11 @@ public class OrganDao {
 		getSession().close();
 	}
 
+	/** 
+	 * @method 获取修改单位信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:15:48
+	 */
 	public Map getOrganInfo(String organId) {
 		Map map = new HashMap();
 		Transaction transaction = getSession().beginTransaction();
@@ -119,6 +144,11 @@ public class OrganDao {
 		return map;
 	}
 	
+	/** 
+	 * @method 保存单位信息
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:16:07
+	 */
 	public Map saveOrgan(HttpServletRequest request) {
 		String organId = request.getParameter("organId");
 		String organName = request.getParameter("organName");
@@ -153,6 +183,11 @@ public class OrganDao {
 		return result;
 	}
 	
+	/** 
+	 * @method 查询单位用于下拉列表
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:16:20
+	 */
 	public List<Map> queryOrgan(HttpServletRequest request){
 		String sql = "SELECT SO.ORGAN_ID  ORGANID ,SO.ORGAN_NAME ORGANNAME FROM SYS_ORGAN SO WHERE SO.IS_VALID=:isValid";
 		Transaction transaction = getSession().beginTransaction();
@@ -165,6 +200,11 @@ public class OrganDao {
 		return queryList;
 	}
 	
+	/** 
+	 * @method 单位代码是否重复
+	 * @author Instant
+	 * @time 2016年4月30日 下午4:16:38
+	 */
 	public Boolean isExitOrganCode(String organCode,String organId){
 		Boolean flag = false;
 		String sql ="select * from sys_organ where organ_code=:organCode ";
