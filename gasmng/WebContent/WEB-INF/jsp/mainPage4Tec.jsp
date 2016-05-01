@@ -6,8 +6,8 @@
 <meta charset="utf-8"/>
 <title>加油站进销管理系统</title>
 <link href="./css/easyui.css" rel="stylesheet" />
-<link href="./css/icon.css" rel="stylesheet" />
 <link href="./css/themes/metro-blue/easyui.css" rel="stylesheet" />
+<link href="./css/icon.css" rel="stylesheet" />
 <link href="./css/bootstrap.min.css" rel="stylesheet" />
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
