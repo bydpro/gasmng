@@ -24,8 +24,8 @@ public class GasRecord implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GenericGenerator(name = "generator", strategy = "uuid")
 	@GeneratedValue(generator = "generator")
+	@GenericGenerator(name = "generator", strategy = "uuid")
 	@Column(name="gas_id")
 	private String gasId;
 
@@ -48,9 +48,23 @@ public class GasRecord implements Serializable {
 
 	@Column(name="gas_volume")
 	private double gasVolume;
+	
+	@Column(name="gas_place")
+	private String gasPlace;
 
 	public GasRecord() {
 	}
+
+	
+	public String getGasPlace() {
+		return gasPlace;
+	}
+
+
+	public void setGasPlace(String gasPlace) {
+		this.gasPlace = gasPlace;
+	}
+
 
 	public String getGasId() {
 		return this.gasId;

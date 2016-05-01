@@ -175,9 +175,9 @@
 				pageSize:10">
 	<thead>
 		<tr>
-			<th field="username" width="60" align="center">加油人</th>
-			<th field="mobile" width="60" align="center">加油人移动电话</th>
+			<th field="username" width="60" align="center">加油人</th>			
 			<th field="email" width="60" align="center">加油人邮箱</th>
+			<th field="organName" width="60" align="center">加油地点</th>
 			<th field="gasusernum" width="60" align="center">卡号</th>
 			<th field="gasid" width="50" hidden="true"></th>
 			<th field="gastype" width="50" align="center">油品类型</th>
@@ -214,6 +214,11 @@
 		 	<label>加&nbsp;&nbsp;&nbsp;油&nbsp;&nbsp;&nbsp;量&nbsp;:</label>
 			<input name="gasVolume" style="width:200px;height:30px;" required="true" class="easyui-numberbox" data-options="precision:0">
 		</div>
+		<div  style="margin-bottom: 7px;">
+			<label>所&nbsp;属&nbsp;单&nbsp;位:</label>
+			<input id="cc2" class="easyui-combobox" name="organId" style="width:200px;height:30px;"
+    			data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'" required="true">
+    	</div>
 	</form>
 </div>
 <div id="gasDlg-buttons">

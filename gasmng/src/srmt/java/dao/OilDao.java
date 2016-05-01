@@ -178,6 +178,7 @@ public class OilDao {
 		sb.append("  SELECT                                                 ");
 		sb.append("  	g.gas_id gasid,                                     ");
 		sb.append("    g.gas_price gasprice,                                ");
+		sb.append("    (select s.organ_name from sys_organ s where g.gas_place = s.organ_id) organName,  ");
 		sb.append("    g.gas_volume gasvolume,                              ");
 		sb.append("    DATE_FORMAT(g.gas_time,'%Y-%m-%d %H:%i')  gastime,   ");
 		sb.append("    g.gas_user_num gasusernum,                           ");
@@ -245,6 +246,7 @@ public class OilDao {
 		String gasType = request.getParameter("gasType");
 		String gasPrice = request.getParameter("gasPrice");
 		String gasVolume = request.getParameter("gasVolume");
+		String organId = request.getParameter("organId");
 		String sql = "select * from sys_user su where su.user_num=:userNum";
 		Transaction transaction = getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sql);
@@ -274,6 +276,7 @@ public class OilDao {
 			gasRecord.setGasUserNum(Long.valueOf(gasUserNum));
 			gasRecord.setGasVolume(Double.valueOf(gasVolume));
 			gasRecord.setGasType(gasType);
+			gasRecord.setGasPlace(organId);
 			getSession().update(gasRecord);
 			sysUser.setUserBalance(myMoney);
 			getSession().update(sysUser);
@@ -289,6 +292,7 @@ public class OilDao {
 			gasRecord.setGasUserNum(Long.valueOf(gasUserNum));
 			gasRecord.setGasVolume(Double.valueOf(gasVolume));
 			gasRecord.setGasType(gasType);
+			gasRecord.setGasPlace(organId);
 			Timestamp ts = new Timestamp(System.currentTimeMillis());
 			gasRecord.setGasTime(ts);
 			gasRecord.setCreaterTime(ts);
@@ -316,6 +320,7 @@ public class OilDao {
 			gasMap.put("gasUserNum", gasRecord.getGasUserNum());
 			gasMap.put("gasPrice", gasRecord.getGasPrice());
 			gasMap.put("gasVolume", gasRecord.getGasVolume());
+			gasMap.put("organId", gasRecord.getGasPlace());
 		}
 		transaction.commit();
 		getSession().close();
@@ -333,6 +338,7 @@ public class OilDao {
 		sb.append("  	g.gas_id gasid,                                     ");
 		sb.append("    g.gas_price gasprice,                                ");
 		sb.append("    g.gas_volume gasvolume,                              ");
+		sb.append("    (select s.organ_name from sys_organ s where g.gas_place = s.organ_id) organName,  ");
 		sb.append("    DATE_FORMAT(g.gas_time,'%Y-%m-%d %H:%i')  gastime,   ");
 		sb.append("   round(g.gas_volume* g.gas_price, 2) userMoney,        ");
 		sb.append("    g.gas_user_num gasusernum,                           ");

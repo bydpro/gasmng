@@ -377,7 +377,6 @@ $(function() {
 
 <div id="dlg" class="easyui-dialog" style="width:590px;height:300px;padding:10px 20px"
 		closed="true" buttons="#dlg-buttons">
-	<div class="ftitle">用户信息</div>
 	<form id="fm" method="post">
 		<div  style="margin-bottom: 7px;">
 			<input name="userId" hidden="true"/>

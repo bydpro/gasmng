@@ -87,7 +87,7 @@
 	<thead>
 		<tr>
 			<th field="username" width="60" align="center">加油人</th>
-			<th field="gasusernum" width="60" align="center">卡号</th>
+			<th field="organName" width="60" align="center">加油地点</th>
 			<th field="gasid" width="50" hidden="true"></th>
 			<th field="gastype" width="50" align="center">油品类型</th>
 			<th field="gasprice" width="50"   formatter="formatPrice" dataType="float">油价</th>
