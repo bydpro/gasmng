@@ -74,8 +74,7 @@
 		return "￥" + val;
 	}
 </script>
-<form id="gasFf" method="post">
-</form>
+<form id="gasFf" method="post"></form>
 <table id="gasDg" title="我的加油记录列表" style="width: 1050px; height: 95%;"
 	data-options="
 				rownumbers:true,
@@ -90,10 +89,12 @@
 			<th field="organName" width="60" align="center">加油地点</th>
 			<th field="gasid" width="50" hidden="true"></th>
 			<th field="gastype" width="50" align="center">油品类型</th>
-			<th field="gasprice" width="50"   formatter="formatPrice" dataType="float">油价</th>
+			<th field="gasprice" width="50" formatter="formatPrice"
+				dataType="float">油价</th>
 			<th field="gasvolume" width="50" dataType="float">加油量</th>
-			<th field="userMoney" width="50" formatter="formatPrice" dataType="float">消费额</th>
-			<th field="gastime" width="60" align="center">加油时间</th>						
+			<th field="userMoney" width="50" formatter="formatPrice"
+				dataType="float">消费额</th>
+			<th field="gastime" width="60" align="center">加油时间</th>
 		</tr>
 	</thead>
 </table>

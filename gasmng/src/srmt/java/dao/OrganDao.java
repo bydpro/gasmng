@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SQLQuery;
@@ -39,8 +40,9 @@ public class OrganDao {
 		String isValid = request.getParameter("isValid");
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT                                  ");
-		sb.append(" 	SO.ORGAN_ID ORGANID,                ");
+		sb.append("   SO.ORGAN_ID ORGANID,                  ");
 		sb.append("   SO.ORGAN_NAME ORGANNAME,              ");
+		sb.append("   (SELECT S.ORGAN_NAME FROM SYS_ORGAN S WHERE S.ORGAN_ID=SO.PARENT) PARENT,              ");
 		sb.append("   SO.ORGAN_CODE ORGANCODE,              ");
 		sb.append("   SO.ORGAN_ADDRESS ORGANADDRESS,        ");
 		sb.append("   SO.IS_VALID ISVALID                   ");
@@ -60,7 +62,7 @@ public class OrganDao {
 				sb.append("  and SO.IS_VALID != :isValid or SO.IS_VALID is null     ");
 			}
 		}
-		Transaction transaction = getSession().beginTransaction();
+		getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		if (StringUtils.isNotEmpty(organName)) {
 			organName = "%" + organName + "%";
@@ -138,6 +140,7 @@ public class OrganDao {
 			map.put("organName", sysOrgan.getOrganName());
 			map.put("isValid", sysOrgan.getIsValid());
 		    map.put("address", sysOrgan.getOrganAddress());
+		    map.put("parent", sysOrgan.getParent());
 			}
 		transaction.commit();
 		getSession().close();
@@ -155,6 +158,7 @@ public class OrganDao {
 		String organCode = request.getParameter("organCode");
 		String address = request.getParameter("address");
 		String isValid = request.getParameter("isValid");
+		String parent = request.getParameter("parent");
 		Map result = new HashMap();
 		if(isExitOrganCode(organCode, organId)){
 			result.put("errorMsg", true);
@@ -168,6 +172,7 @@ public class OrganDao {
 			sysOrgan.setOrganAddress(address);
 			sysOrgan.setOrganCode(organCode);
 			sysOrgan.setOrganName(organName);
+			sysOrgan.setParent(parent);
 			getSession().update(sysOrgan);
 		}else {
 			SysOrgan sysOrgan = new SysOrgan();
@@ -175,6 +180,7 @@ public class OrganDao {
 			sysOrgan.setOrganAddress(address);
 			sysOrgan.setOrganCode(organCode);
 			sysOrgan.setOrganName(organName);
+			sysOrgan.setParent(parent);
 			getSession().save(sysOrgan);
 		}
 		transaction.commit();
@@ -190,10 +196,19 @@ public class OrganDao {
 	 */
 	public List<Map> queryOrgan(HttpServletRequest request){
 		String sql = "SELECT SO.ORGAN_ID  ORGANID ,SO.ORGAN_NAME ORGANNAME FROM SYS_ORGAN SO WHERE SO.IS_VALID=:isValid";
+		HttpSession session = request.getSession();
+		String userType = (String)session.getAttribute("userType");
+		String organId = (String)session.getAttribute("organId");
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			sql = sql + "  AND (SO.ORGAN_ID =:oragnId OR SO.PARENT =:oragnId) ";
+		}
 		Transaction transaction = getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sql);
 		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		query.setParameter("isValid", Constants.YES);
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			query.setParameter("oragnId", organId);
+		}
 		List<Map> queryList = query.list();
 		transaction.commit();
 		getSession().close();
@@ -211,7 +226,7 @@ public class OrganDao {
 		if(StringUtils.isNotEmpty(organId)){
 			sql = sql +"  and  organ_id != :organId";
 		}
-		Transaction transaction = getSession().beginTransaction();
+		getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sql);
 		query.setParameter("organCode", organCode);
 		if(StringUtils.isNotEmpty(organId)){

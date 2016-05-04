@@ -162,6 +162,8 @@
 </script>
 <div id="container" style="min-width: 300px; height: 300px"></div>
 <div align="left">
-	<div id="container4StorageAll" style="width: 57%; height: 400px;float:left"></div>
-	<div id="container4Storage" style="width: 43%; height: 400px;float:left"></div>
+	<div id="container4StorageAll"
+		style="width: 57%; height: 400px; float: left"></div>
+	<div id="container4Storage"
+		style="width: 43%; height: 400px; float: left"></div>
 </div>

@@ -34,6 +34,7 @@ public class OrganController {
 	@ResponseBody
 	@RequestMapping("/queryOragnList.do")
 	public List<Map> queryOragnList(HttpServletRequest request) {
+	
 		List<Map> list = organSevrvice.queryOragnList(request);
 		return list;
 	}

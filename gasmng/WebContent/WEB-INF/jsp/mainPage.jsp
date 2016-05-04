@@ -171,7 +171,7 @@ function loginOut(){
 	<div region="north" class="north" border="true">
 		<div align="right">
 			<form>
-				<label>欢迎你：</label> <label>${username}</label>&nbsp;&nbsp;<a
+				<label>欢迎你,管理员：</label> <label>${username}</label>&nbsp;&nbsp;<a
 					href="javascript:void(0)" onclick="loginOut()">退出</a>
 			</form>
 		</div>
@@ -182,16 +182,21 @@ function loginOut(){
 		</div>
 	</div>
 	<div region="west" class="west" title="菜单">
-		<div id="RightAccordion" class="easyui-accordion"  border="false" data-options="multiple:true">
-		    <div title="库存信息管理" data-options="iconCls:'icon-package_green',selected:true" style="overflow:auto;padding:10px;">
-               <ul id="tree1"></ul>
-            </div>
-            <div title="加油信息管理" data-options="iconCls:'icon-gas'" style="padding:10px;">
-               <ul id="tree2"></ul>
-            </div>
-            <div title="个人信息管理" data-options="iconCls:'icon-man'" style="overflow:auto;padding:10px;">
-                <ul id="tree3"></ul>
-            </div>
+		<div id="RightAccordion" class="easyui-accordion" border="false"
+			data-options="multiple:true">
+			<div title="库存信息管理"
+				data-options="iconCls:'icon-package_green',selected:true"
+				style="overflow: auto; padding: 10px;">
+				<ul id="tree1"></ul>
+			</div>
+			<div title="加油信息管理" data-options="iconCls:'icon-gas'"
+				style="padding: 10px;">
+				<ul id="tree2"></ul>
+			</div>
+			<div title="个人信息管理" data-options="iconCls:'icon-man'"
+				style="overflow: auto; padding: 10px;">
+				<ul id="tree3"></ul>
+			</div>
 		</div>
 	</div>
 

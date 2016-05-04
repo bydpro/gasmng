@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
 <title>加油站进销管理系统</title>
 <link href="./css/easyui.css" rel="stylesheet" />
 <link href="./css/themes/metro-blue/easyui.css" rel="stylesheet" />
@@ -15,15 +15,18 @@
 <script type="text/javascript" src="./js/json2.js"></script>
 <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
 <style>
-  article, aside, figure, footer, header, hgroup, 
-  menu, nav, section { display: block; }
-  .west{
-    width:200px;
-    padding:10px;
-  }
-  .north{
-    height:60px;
-  }
+article, aside, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+.west {
+	width: 200px;
+	padding: 10px;
+}
+
+.north {
+	height: 60px;
+}
 </style>
 <script type="text/javascript">
 $(function () {
@@ -191,7 +194,8 @@ function loginOut(){
 	<div region="north" class="north" border="true">
 		<div align="right">
 			<form>
-				<label>欢迎你：</label> <label>${username}</label>&nbsp;&nbsp;<a href="javascript:void(0)" onclick="loginOut()">退出</a>
+				<label>欢迎你,超级管理员：</label> <label>${username}</label>&nbsp;&nbsp;<a
+					href="javascript:void(0)" onclick="loginOut()">退出</a>
 			</form>
 		</div>
 	</div>
@@ -201,9 +205,9 @@ function loginOut(){
 		</div>
 	</div>
 	<div region="west" class="west" title="菜单">
-		<div id="RightAccordion" class="easyui-accordion" border="false" data-options="multiple:true">
-			<div title="基本信息管理"
-				data-options="iconCls:'icon-home',selected:true"
+		<div id="RightAccordion" class="easyui-accordion" border="false"
+			data-options="multiple:true">
+			<div title="基本信息管理" data-options="iconCls:'icon-home',selected:true"
 				style="overflow: auto; padding: 10px;">
 				<ul id="tree4"></ul>
 			</div>

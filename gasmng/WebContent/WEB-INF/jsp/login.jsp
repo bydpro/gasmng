@@ -91,11 +91,11 @@ body {
 					<label for="loginId" class="col-sm-3 control-label">用户名</label>
 					<div class="col-sm-7">
 						<input type="text" class="form-control" id="loginId"
-							placeholder="手机/邮箱/用户名" name="loginId">
+							placeholder="手机/邮箱/用户卡号	" name="loginId">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="password" class="col-sm-3 control-label">密码</label>
+					<label for="password" class="col-sm-3 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
 					<div class="col-sm-7">
 						<input type="password" class="form-control" id="password"
 							placeholder="密码" name="password">

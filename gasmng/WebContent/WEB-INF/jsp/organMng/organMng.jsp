@@ -209,24 +209,25 @@
 	}
 </script>
 <form id="organFf" method="post">
-     <div style="margin-bottom: 7px;">
-		<label for="organName">单位名称:</label>
-		<input class="easyui-textbox" type="text" name="organName"  style="width:200px;height:30px;"/>
-		<label for="organCode">单位代码:</label>
-		<input class="easyui-textbox" type="text" name="organCode"  style="width:200px;height:30px;"/>
-		<label>是否有效:&nbsp;&nbsp;</label>
-        <span class="radioSpan">
-                <input type="radio" name="isValid" value="1">是</input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="isValid" value="0">否</input>
-        </span>
-		<input class="easyui-linkbutton" type="button" value="查询" style="width:98px;height:30px;
-				margin-left:200px " onclick="doSearch()">
-		<input class="easyui-linkbutton" type="button" value="重置" style="width:98px;height:30px;" onclick="clearForm()"/>
-    </div>
-    
+	<div style="margin-bottom: 7px;">
+		<label for="organName">单位名称:</label> <input class="easyui-textbox"
+			type="text" name="organName" style="width: 200px; height: 30px;" /> <label
+			for="organCode">单位代码:</label> <input class="easyui-textbox"
+			type="text" name="organCode" style="width: 200px; height: 30px;" /> <label>是否有效:&nbsp;&nbsp;</label>
+		<span class="radioSpan"> <input type="radio" name="isValid"
+			value="1">是</input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+			name="isValid" value="0">否</input>
+		</span> <input class="easyui-linkbutton" type="button" value="查询"
+			style="width: 98px; height: 30px; margin-left: 200px"
+			onclick="doSearch()"> <input class="easyui-linkbutton"
+			type="button" value="重置" style="width: 98px; height: 30px;"
+			onclick="clearForm()" />
+	</div>
+
 </form>
-<table id="organDg" title="单位列表" 
-	style="width: 1050px; height: 85%;" toolbar="#toolbar4Organ" data-options="
+<table id="organDg" title="单位列表" style="width: 1050px; height: 85%;"
+	toolbar="#toolbar4Organ"
+	data-options="
 				rownumbers:true,
 				singleSelect:true,
 				autoRowHeight:false,
@@ -236,48 +237,59 @@
 	<thead>
 		<tr>
 			<th field="ORGANNAME" width="50">单位名称</th>
-			<th field="ORGANID" width="50" hidden="true">ORGANID</th>
+			<th field="ORGANID" width="50" hidden="true">ORGANID</th>			
 			<th field="ORGANCODE" width="50">单位代码</th>
 			<th field="ORGANADDRESS" width="50">单位地址</th>
+			<th field="PARENT" width="50">上级单位</th>
 			<th field="ISVALID" width="50" formatter="formatValue">是否有效</th>
 		</tr>
 	</thead>
 </table>
 <div id="toolbar4Organ">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addOrgan()">新增</a> 
-	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editOrgan()">修改</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delOrgan()">移除</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="layoutOrgan()">注销</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="unLayoutOrgan()">取消注销</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="addOrgan()">新增</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-edit" plain="true" onclick="editOrgan()">修改</a> <a
+		href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+		onclick="delOrgan()">移除</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-redo" plain="true" onclick="layoutOrgan()">注销</a> <a
+		href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true"
+		onclick="unLayoutOrgan()">取消注销</a>
 </div>
 
-<div id="organDlg" class="easyui-dialog" style="width:590px;height:300px;padding:10px 20px"
-		closed="true" buttons="#organDlg-buttons">
-	<div class="ftitle">单位信息</div>
+<div id="organDlg" class="easyui-dialog"
+	style="width: 390px; height: 300px; padding: 10px 20px" closed="true"
+	buttons="#organDlg-buttons" align="center">
 	<form id="submitForm" method="post">
-		<div  style="margin-bottom: 7px;">
-			<input name="organId" hidden="true"/>
-			<label>单位名称：</label>
-			<input name="organName" class="easyui-validatebox" required="true" style="width:200px;height:30px;">
-		</div>
- 		<div style="margin-bottom: 7px;">	
- 			<label>单位代码：</label>
-			<input name="organCode" class="easyui-validatebox" data-options="required:true" style="width:200px;height:30px;">
- 		</div>
 		<div style="margin-bottom: 7px;">
-			<label>单位地址：</label>
-			<input name="address" style="width:200px;height:30px;">
+			<input name="organId" hidden="true" /> <label>单位名称：</label> <input
+				name="organName" class="easyui-validatebox" required="true"
+				style="width: 200px; height: 30px;">
 		</div>
-		<div  style="margin-bottom: 7px;">
-		    <label>是否有效:</label>
-		    <span class="radioSpan">
-                <input type="radio" name="isValid" value="1">是</input>&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="isValid" value="0">否</input>
-            </span>
+		<div style="margin-bottom: 7px;">
+			<label>单位代码：</label> <input name="organCode"
+				class="easyui-validatebox" data-options="required:true"
+				style="width: 200px; height: 30px;">
+		</div>
+		<div style="margin-bottom: 7px;">
+			<label>单位地址：</label> <input name="address"
+				style="width: 200px; height: 30px;">
+		</div>
+		<div style="margin-bottom: 7px;">
+			<label>所属单位：</label> <input id="cc2" class="easyui-combobox"
+				name="parent" style="width: 200px; height: 30px;"
+				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'">
+		</div>
+		<div style="margin-bottom: 7px;margin-right: 140px;">
+			<label>是否有效:</label> <span class="radioSpan"> <input
+				type="radio" name="isValid" value="1">是</input>&nbsp;&nbsp;&nbsp; <input
+				type="radio" name="isValid" value="0">否</input>
+			</span>
 		</div>
 	</form>
 </div>
 <div id="organDlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveOrgan()">保存</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#organDlg').dialog('close')">取消</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+		onclick="saveOrgan()">保存</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-cancel"
+		onclick="javascript:$('#organDlg').dialog('close')">取消</a>
 </div>

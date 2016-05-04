@@ -56,6 +56,8 @@ public class SendEmail {
 		properties.setProperty("mail.smtp.host", host);
 
 		properties.put("mail.smtp.auth", "true");
+
+		properties.put("port", "465");
 		// 获取默认session对象
 		Session session = Session.getInstance(properties, new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {

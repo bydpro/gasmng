@@ -39,11 +39,22 @@ public class OilStorage implements Serializable {
 
 	@Column(name="oil_type")
 	private String oilType;
+	
+	@Column(name="oil_ru_place")
+	private String oilRuPlace;
 
 	@Column(name="olil_num")
 	private Integer olilNum;
 
 	public OilStorage() {
+	}
+
+	public String getOilRuPlace() {
+		return oilRuPlace;
+	}
+
+	public void setOilRuPlace(String oilRuPlace) {
+		this.oilRuPlace = oilRuPlace;
 	}
 
 	public String getOilStorageId() {

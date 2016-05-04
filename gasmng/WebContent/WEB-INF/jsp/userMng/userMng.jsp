@@ -3,8 +3,8 @@
 <meta charset="utf-8" />
 <style>
 #text-box {
-	width:200px;
-    height: 30px;
+	width: 200px;
+	height: 30px;
 }
 </style>
 <script type="text/javascript">
@@ -307,41 +307,41 @@ $(function() {
 	}
 </script>
 <form id="ff" method="post">
-    <div style="margin-bottom: 7px">
+	<div style="margin-bottom: 7px">
 		<label for="username">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
-		<input class="easyui-textbox" type="text" name="userName"  style="width:200px;height:30px;"/>
-		<label for="email">电子邮箱:</label>
-		<input class="easyui-textbox" type="text" name="email" style="width:200px;height:30px;"/>
-		<label for="mobile">移动电话:</label>
-		<input class="easyui-textbox" type="text" name="mobile" style="width:200px;height:30px;"/>
-		<label for="organId">所属单位:</label>
-		<input id="cc" class="easyui-combobox" name="organId" style="width:200px;height:30px;"
-    			data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'">
-    </div>
-     <div style="margin-bottom: 7px;">
-		<label for="loginId">用户卡号:</label>
-		<input class="easyui-textbox" type="text" name="userNum"  style="width:200px;height:30px;"/>
-		<label>是否有效:&nbsp;&nbsp;</label>
-        <span class="radioSpan">
-                <input type="radio" name="isValid" value="1">是</input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="isValid" value="0">否</input>
-        </span>
-         <label style="margin-left: 125px">是否为管理员:</label>
-		 <span class="radioSpan">
-         <input type="radio" name="isAdmin" value="1">是</input>&nbsp;&nbsp;&nbsp;
-         <input type="radio" name="isAdmin" value="0">否</input>
-         </span>
-		<input class="easyui-linkbutton" type="button" value="查询" style="width:98px;height:30px;
-				margin-left:175px " onclick="doSearch()">
-		<input class="easyui-linkbutton" type="button" value="重置" style="width:98px;height:30px;" onclick="clearForm()"/>
-   	   
-   	    <input  type="text" name="pageNum" hidden="true" id="pageNum"/>
-   	    <input  type="text" name="pageSize" hidden="true" id="pageSize"/>
-    </div>
-    
+		<input class="easyui-textbox" type="text" name="userName"
+			style="width: 200px; height: 30px;" /> <label for="email">电子邮箱:</label>
+		<input class="easyui-textbox" type="text" name="email"
+			style="width: 200px; height: 30px;" /> <label for="mobile">移动电话:</label>
+		<input class="easyui-textbox" type="text" name="mobile"
+			style="width: 200px; height: 30px;" /> <label for="organId">所属单位:</label>
+		<input id="cc" class="easyui-combobox" name="organId"
+			style="width: 200px; height: 30px;"
+			data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'">
+	</div>
+	<div style="margin-bottom: 7px;">
+		<label for="loginId">用户卡号:</label> <input class="easyui-textbox"
+			type="text" name="userNum" style="width: 200px; height: 30px;" /> <label>是否有效:&nbsp;&nbsp;</label>
+		<span class="radioSpan"> <input type="radio" name="isValid"
+			value="1">是</input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
+			name="isValid" value="0">否</input>
+		</span> <label style="margin-left: 125px">是否为管理员:</label> <span
+			class="radioSpan"> <input type="radio" name="isAdmin"
+			value="1">是</input>&nbsp;&nbsp;&nbsp; <input type="radio"
+			name="isAdmin" value="0">否</input>
+		</span> <input class="easyui-linkbutton" type="button" value="查询"
+			style="width: 98px; height: 30px; margin-left: 175px"
+			onclick="doSearch()"> <input class="easyui-linkbutton"
+			type="button" value="重置" style="width: 98px; height: 30px;"
+			onclick="clearForm()" /> <input type="text" name="pageNum"
+			hidden="true" id="pageNum" /> <input type="text" name="pageSize"
+			hidden="true" id="pageSize" />
+	</div>
+
 </form>
-<table id="dg" title="用户列表" 
-	style="width: 1050px; height: 78%;" toolbar="#toolbar" data-options="
+<table id="dg" title="用户列表" style="width: 1050px; height: 78%;"
+	toolbar="#toolbar"
+	data-options="
 				rownumbers:true,
 				singleSelect:true,
 				autoRowHeight:false,
@@ -365,56 +365,63 @@ $(function() {
 	</thead>
 </table>
 <div id="toolbar">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addUser()">新增</a> 
-	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delUser()">移除</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="layoutUser()">注销</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="unLayoutUser()">取消注销</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="isXTAdmin()">设置为系统管理员</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="isAdmin()">设置为普通管理员</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="true" onclick="isNormalUser()">设置为普通用户</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="addUser()">新增</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-edit" plain="true" onclick="editUser()">修改</a> <a
+		href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+		onclick="delUser()">移除</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-redo" plain="true" onclick="layoutUser()">注销</a> <a
+		href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="true"
+		onclick="unLayoutUser()">取消注销</a> <a href="#"
+		class="easyui-linkbutton" iconCls="icon-redo" plain="true"
+		onclick="isXTAdmin()">设置为系统管理员</a> <a href="#"
+		class="easyui-linkbutton" iconCls="icon-redo" plain="true"
+		onclick="isAdmin()">设置为普通管理员</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-redo" plain="true" onclick="isNormalUser()">设置为普通用户</a>
 </div>
 
-<div id="dlg" class="easyui-dialog" style="width:590px;height:300px;padding:10px 20px"
-		closed="true" buttons="#dlg-buttons">
+<div id="dlg" class="easyui-dialog"
+	style="width: 590px; height: 300px; padding: 10px 20px" closed="true"
+	buttons="#dlg-buttons">
 	<form id="fm" method="post">
-		<div  style="margin-bottom: 7px;">
-			<input name="userId" hidden="true"/>
-			<label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
-			<input name="userName" class="easyui-validatebox" required="true" style="width:200px;height:30px;">
-			<label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label>
-            <span class="radioSpan">
-                <input type="radio" name="sex" value="1">男</input>&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="sex" value="0">女</input>
-            </span>
- 		</div>
 		<div style="margin-bottom: 7px;">
-			<label>电子邮箱</label>
-			<input name="email" class="easyui-validatebox" data-options="required:true,validType:'email'" style="width:200px;height:30px;">
-			<label>移动电话</label>
-			<input name="mobile" style="width:200px;height:30px;" data-options="required:true,validType:'mobile'">
+			<input name="userId" hidden="true" /> <label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+			<input name="userName" class="easyui-validatebox" required="true"
+				style="width: 200px; height: 30px;"> <label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label>
+			<span class="radioSpan"> <input type="radio" name="sex"
+				value="1">男</input>&nbsp;&nbsp;&nbsp; <input type="radio" name="sex"
+				value="0">女</input>
+			</span>
 		</div>
-		<div  style="margin-bottom: 7px;">
-			<label>所属单位</label>
-			<input id="cc2" class="easyui-combobox" name="organId" style="width:200px;height:30px;"
-    			data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'">
-			<label>生日日期</label>
-			<input type="text" class="easyui-datebox" style="width:200px;height:30px;" name="birhtday">
+		<div style="margin-bottom: 7px;">
+			<label>电子邮箱</label> <input name="email" class="easyui-validatebox"
+				data-options="required:true,validType:'email'"
+				style="width: 200px; height: 30px;"> <label>移动电话</label> <input
+				name="mobile" style="width: 200px; height: 30px;"
+				data-options="required:true,validType:'mobile'">
 		</div>
-		<div  style="margin-bottom: 7px;">
-			<label>住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
-			<input name="address" class="easyui-validatebox"  style="width:455px;height:30px;">
+		<div style="margin-bottom: 7px;">
+			<label>所属单位</label> <input id="cc2" class="easyui-combobox"
+				name="organId" style="width: 200px; height: 30px;"
+				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'">
+			<label>生日日期</label> <input type="text" class="easyui-datebox"
+				style="width: 200px; height: 30px;" name="birhtday">
 		</div>
-		<div  style="margin-bottom: 7px;">
-		    <label>是否为管理员:</label>
-		    <span class="radioSpan">
-                <input type="radio" name="isAdmin" value="1">是</input>&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="isAdmin" value="0">否</input>
-            </span>
+		<div style="margin-bottom: 7px;">
+			<label>住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label> <input
+				name="address" class="easyui-validatebox"
+				style="width: 455px; height: 30px;">
+		</div>
+		<div style="margin-bottom: 7px;">
+			<label>是否为管理员:</label> <span class="radioSpan"> <input
+				type="radio" name="isAdmin" value="1">是</input>&nbsp;&nbsp;&nbsp; <input
+				type="radio" name="isAdmin" value="0">否</input>
+			</span>
 		</div>
 	</form>
 </div>
 <div id="dlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">保存</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+		onclick="saveUser()">保存</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>

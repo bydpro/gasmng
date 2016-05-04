@@ -177,16 +177,21 @@ function loginOut(){
 		</div>
 	</div>
 	<div region="west" class="west" title="菜单">
-		<div id="RightAccordion" class="easyui-accordion"  border="false" data-options="multiple:true">
-		    <div title="我的消费记录" data-options="iconCls:'icon-package_green',selected:true" style="overflow:auto;padding:10px;">
-               <ul id="tree1"></ul>
-            </div>
-            <div title="余额充值" data-options="iconCls:'icon-gas'" style="padding:10px;">
-               <ul id="tree2"></ul>
-            </div>
-            <div title="个人信息管理" data-options="iconCls:'icon-man'" style="overflow:auto;padding:10px;">
-                <ul id="tree3"></ul>
-            </div>
+		<div id="RightAccordion" class="easyui-accordion" border="false"
+			data-options="multiple:true">
+			<div title="我的消费记录"
+				data-options="iconCls:'icon-package_green',selected:true"
+				style="overflow: auto; padding: 10px;">
+				<ul id="tree1"></ul>
+			</div>
+			<div title="余额充值" data-options="iconCls:'icon-gas'"
+				style="padding: 10px;">
+				<ul id="tree2"></ul>
+			</div>
+			<div title="个人信息管理" data-options="iconCls:'icon-man'"
+				style="overflow: auto; padding: 10px;">
+				<ul id="tree3"></ul>
+			</div>
 		</div>
 	</div>
 

@@ -211,7 +211,7 @@ public class OilStorageController {
 	@ResponseBody
 	@RequestMapping("/getOilSalInfo.do")
 	public Map getOilSalInfo(HttpServletRequest request) {
-		Map  map= oilStorageService.getOilSalInfo();
+		Map  map= oilStorageService.getOilSalInfo(request);
 		return map;
 	}
 	
@@ -223,7 +223,7 @@ public class OilStorageController {
 	@ResponseBody
 	@RequestMapping("/queryOilStorage4All.do")
 	public Map queryOilStorage4All(HttpServletRequest request) {
-		Map  map= oilStorageService.queryOilStorage4All();
+		Map  map= oilStorageService.queryOilStorage4All(request);
 		return map;
 	}
 }

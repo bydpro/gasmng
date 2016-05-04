@@ -49,14 +49,15 @@ public class OilDao {
 		sb.append(" SELECT o.oil_tank_id,o.oil_storage_id, "
 				+ "(select s.dict_name from sys_dict s where s.dict_value= o.oil_type) oil_type,o.olil_num,"
 				+ "DATE_FORMAT(o.oil_receive_time,'%Y-%m-%d %H:%i')  "
-				+ "oil_receive_time from oil_storage    o       where 1=1        						");
+				+ "oil_receive_time ,(select so.organ_name from sys_organ so where so.organ_id =o.oil_ru_place) organname"
+				+ " from oil_storage    o       where 1=1        						");
 		if (StringUtils.isNotEmpty(oilType)) {
 			sb.append(" and o.oil_type = :oilType   ");
 		}
 		if (StringUtils.isNotEmpty(oilTankId)) {
 			sb.append("  and o.oil_tank_id = :oilTankId   ");
 		}
-		Transaction transaction = getSession().beginTransaction();
+		getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		if (StringUtils.isNotEmpty(oilType)) {
 			query.setParameter("oilType", oilType);
@@ -81,6 +82,7 @@ public class OilDao {
 		String olilNum = request.getParameter("olilNum");
 		String oilTankId = request.getParameter("oilTankId");
 		String oilReceiveTime = request.getParameter("oilReceiveTime");
+		String oilPlace = request.getParameter("oilPlace");
 		String userId = (String) session.getAttribute("userId");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date oilReceiveDate = null;
@@ -100,6 +102,7 @@ public class OilDao {
 			oilStorage.setOilTankId(oilTankId);
 			oilStorage.setCeraterDate(new Date());
 			oilStorage.setCreater(userId);
+			oilStorage.setOilRuPlace(oilPlace);
 			getSession().update(oilStorage);
 		} else {
 			OilStorage oilStorage = new OilStorage();
@@ -107,6 +110,7 @@ public class OilDao {
 			oilStorage.setOlilNum(Integer.parseInt(olilNum));
 			oilStorage.setOilType(oilType);
 			oilStorage.setOilTankId(oilTankId);
+			oilStorage.setOilRuPlace(oilPlace);
 			getSession().save(oilStorage);
 		}
 		transaction.commit();
@@ -128,6 +132,7 @@ public class OilDao {
 			oilMap.put("olilNum", oilStorage.getOlilNum());
 			oilMap.put("oilTankId", oilStorage.getOilTankId());
 			oilMap.put("oilReceiveTime", oilStorage.getOilReceiveTime().toString());
+			oilMap.put("oilPlace", oilStorage.getOilRuPlace());
 		}
 		transaction.commit();
 		getSession().close();
@@ -152,7 +157,7 @@ public class OilDao {
 	 * @time 2016年4月30日 下午4:25:58
 	 */
 	public List<Map> queryOilType() {
-		Transaction transaction = getSession().beginTransaction();
+		getSession().beginTransaction();
 		String sql = "select s.dict_name dictname,s.dict_value dictvalue from sys_dict s where s.dict_is_valid=:isValid"
 				+ " and s.dict_type=:dictType ";
 		SQLQuery query = getSession().createSQLQuery(sql);
@@ -201,7 +206,7 @@ public class OilDao {
 		if (StringUtils.isNotEmpty(userNum)) {
 			sb.append(" and g.gas_user_num = :userNum   ");
 		}
-		Transaction transaction = getSession().beginTransaction();
+		getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		if (StringUtils.isNotEmpty(userName)) {
@@ -350,7 +355,7 @@ public class OilDao {
 		sb.append("  and g.gas_user_num=:userNum ");
 		HttpSession session = request.getSession();
 		BigInteger userNum = (BigInteger) session.getAttribute("userNum");
-		Transaction transaction = getSession().beginTransaction();
+		getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		query.setParameter("userNum", userNum);
@@ -363,22 +368,29 @@ public class OilDao {
 	 * @author Instant
 	 * @time 2016年4月30日 下午4:28:31
 	 */
-	public Double queryOilSalVolume(int year, int month, String gasType) {
+	public Double queryOilSalVolume(int year, int month, String gasType,String userType,String organId) {
 		String monthStr = Integer.toString(month);
 		int length = monthStr.length();
 		if (length == 1) {
 			monthStr = "0" + monthStr;
 		}
 		String dateStr = Integer.toString(year) + monthStr;
-		Transaction transaction = getSession().beginTransaction();
+		getSession().beginTransaction();
 		StringBuffer sb = new StringBuffer();
 		sb.append("  select SUM(gr.gas_volume) gasvolume from gas_record gr  ");
 		sb.append("  where DATE_FORMAT(gr.gas_time,'%Y%m') = :dateStr       ");
 		sb.append("  and gr.gas_type= :gasType                              ");
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			sb.append("   AND (gr.gas_place in (select so.organ_id from sys_organ ");
+			sb.append("  so where so.organ_id=:organId or so.parent=:organId ))") ;
+		}
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
 		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		query.setParameter("dateStr", dateStr);
 		query.setParameter("gasType", gasType);
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			query.setParameter("organId", organId);
+		}
 		List<Map> queryList = query.list();
 		Map map = new HashMap<>();
 		Double gasVolume = 0.0;
@@ -394,12 +406,19 @@ public class OilDao {
 	 * @author Instant
 	 * @time 2016年4月30日 下午4:29:56
 	 */
-	public double queryGasTotal(String gasType) {
-		Transaction transaction = getSession().beginTransaction();
-		String sql = "select SUM(os.olil_num)  olilnum from oil_storage os where os.oil_type=:gasType";
+	public double queryGasTotal(String gasType,String userType,String organId) {
+		getSession().beginTransaction();
+		String sql = "select SUM(os.olil_num)  olilnum from oil_storage os where os.oil_type=:gasType ";
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			sql = sql + "  AND (os.oil_ru_place in (select so.organ_id from sys_organ "
+					  + " so where so.organ_id=:organId or so.parent=:organId ))" ;
+		}
 		SQLQuery totalQuery = getSession().createSQLQuery(sql);
 		totalQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		totalQuery.setParameter("gasType", gasType);
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			totalQuery.setParameter("organId", organId);
+		}
 		List<Map> totalList = totalQuery.list();
 		double oilTotal = 0.00;
 		Map totalMap = new HashMap<>();
@@ -416,12 +435,19 @@ public class OilDao {
 	 * @author Instant
 	 * @time 2016年4月30日 下午4:29:04
 	 */
-	public double queryOilSalVolume(String gasType) {
-		Transaction transaction = getSession().beginTransaction();
-		String sql = "select sum(gr.gas_volume)  gasvolume  from gas_record gr where gr.gas_type=:gasType";
+	public double queryOilSalVolume(String gasType,String userType,String organId) {
+		getSession().beginTransaction();
+		String sql = "select sum(gr.gas_volume)  gasvolume  from gas_record gr where gr.gas_type=:gasType  ";
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			sql = sql + "  AND (gr.gas_place in (select so.organ_id from sys_organ "
+					  + " so where so.organ_id=:organId or so.parent=:organId ))" ;
+		}
 		SQLQuery totalQuery = getSession().createSQLQuery(sql);
 		totalQuery.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		totalQuery.setParameter("gasType", gasType);
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			totalQuery.setParameter("organId", organId);
+		}
 		List<Map> totalList = totalQuery.list();
 		double oilTotal = 0;
 		Map totalMap = new HashMap<>();

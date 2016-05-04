@@ -150,16 +150,14 @@
 		<input class="easyui-textbox" type="text" name="email"
 			style="width: 200px; height: 30px;" /> <label for="mobile">移动电话:</label>
 		<input class="easyui-textbox" type="text" name="mobile"
-			style="width: 200px; height: 30px;" />
-		<label for="mobile">卡&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
+			style="width: 200px; height: 30px;" /> <label for="mobile">卡&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
 		<input class="easyui-textbox" type="text" name="userNum"
 			style="width: 200px; height: 30px;" />
 	</div>
 	<div style="margin-bottom: 7px">
 		<input class="easyui-linkbutton" type="button" value="查询"
 			style="width: 98px; height: 30px; margin-left: 810px"
-			onclick="doSearch()">
-		<input class="easyui-linkbutton"
+			onclick="doSearch()"> <input class="easyui-linkbutton"
 			type="button" value="重置" style="width: 98px; height: 30px;"
 			onclick="clearForm()" />
 	</div>
@@ -175,53 +173,66 @@
 				pageSize:10">
 	<thead>
 		<tr>
-			<th field="username" width="60" align="center">加油人</th>			
+			<th field="username" width="60" align="center">加油人</th>
 			<th field="email" width="60" align="center">加油人邮箱</th>
 			<th field="organName" width="60" align="center">加油地点</th>
 			<th field="gasusernum" width="60" align="center">卡号</th>
 			<th field="gasid" width="50" hidden="true"></th>
 			<th field="gastype" width="50" align="center">油品类型</th>
-			<th field="gasprice" width="50" >油价</th>
+			<th field="gasprice" width="50">油价</th>
 			<th field="gasvolume" width="50">加油量</th>
-			<th field="gastime" width="60" align="center">加油时间</th>						
+			<th field="gastime" width="60" align="center">加油时间</th>
 		</tr>
 	</thead>
 </table>
 <div id="toolbar4Gas">
- <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addGasRecord()">新增记录</a> 
- <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editGasRecord()">修改记录</a>
- <a	href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"	onclick="delGasRecord()">移除记录</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="addGasRecord()">新增记录</a> <a href="#"
+		class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+		onclick="editGasRecord()">修改记录</a> <a href="#"
+		class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+		onclick="delGasRecord()">移除记录</a>
 </div>
-<div id="gasDlg" class="easyui-dialog" style="width:490px;height:280px;padding:10px 20px"
-		closed="true" buttons="#gasDlg-buttons" align="center">
+<div id="gasDlg" class="easyui-dialog"
+	style="width: 490px; height: 280px; padding: 10px 20px" closed="true"
+	buttons="#gasDlg-buttons" align="center">
 	<form id="gasForm" method="post">
-		<div  style="margin-bottom: 7px;">
-			<input name="gasId" hidden="true"/>
-			<label>卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号&nbsp:</label>
-			<input name="gasUserNum" id ="gasUserNum" class="easyui-numberbox" required="true" style="width:200px;height:30px;" data-options="precision:0,min :201610000001,max:999999999999"
-			   >
+		<div style="margin-bottom: 7px;">
+			<input name="gasId" hidden="true" /> <label>卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号&nbsp:</label>
+			<input name="gasUserNum" id="gasUserNum" class="easyui-numberbox"
+				required="true" style="width: 200px; height: 30px;"
+				data-options="precision:0,min :201610000001,max:999999999999">
 		</div>
- 		<div style="margin-bottom: 7px;">	
- 			<label for="gasType">油&nbsp;品&nbsp;类&nbsp;型:</label>
-			<input id="cc3" class="easyui-combobox" name="gasType" style="width:200px;height:30px;"
-    			data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'" required="true">
- 		</div>
+		<div style="margin-bottom: 7px;">
+			<label for="gasType">油&nbsp;品&nbsp;类&nbsp;型:</label> <input id="cc3"
+				class="easyui-combobox" name="gasType"
+				style="width: 200px; height: 30px;"
+				data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'"
+				required="true">
+		</div>
 		<div style="margin-bottom: 7px;">
 			<label>油&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价&nbsp;:</label>
-			<input name="gasPrice" style="width:200px;height:30px;" required="true" class="easyui-numberbox" data-options="precision:2,groupSeparator:',',decimalSeparator:'.',prefix:'$'">
+			<input name="gasPrice" style="width: 200px; height: 30px;"
+				required="true" class="easyui-numberbox"
+				data-options="precision:2,groupSeparator:',',decimalSeparator:'.',prefix:'$'">
 		</div>
-		<div  style="margin-bottom: 7px;">
-		 	<label>加&nbsp;&nbsp;&nbsp;油&nbsp;&nbsp;&nbsp;量&nbsp;:</label>
-			<input name="gasVolume" style="width:200px;height:30px;" required="true" class="easyui-numberbox" data-options="precision:0">
+		<div style="margin-bottom: 7px;">
+			<label>加&nbsp;&nbsp;&nbsp;油&nbsp;&nbsp;&nbsp;量&nbsp;:</label> <input
+				name="gasVolume" style="width: 200px; height: 30px;" required="true"
+				class="easyui-numberbox" data-options="precision:0">
 		</div>
-		<div  style="margin-bottom: 7px;">
-			<label>所&nbsp;属&nbsp;单&nbsp;位:</label>
-			<input id="cc2" class="easyui-combobox" name="organId" style="width:200px;height:30px;"
-    			data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'" required="true">
-    	</div>
+		<div style="margin-bottom: 7px;">
+			<label>加&nbsp;油&nbsp;地&nbsp;点:</label> <input id="cc2"
+				class="easyui-combobox" name="organId"
+				style="width: 200px; height: 30px;"
+				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'"
+				required="true">
+		</div>
 	</form>
 </div>
 <div id="gasDlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveGasRecord()">保存</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#gasDlg').dialog('close')">取消</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+		onclick="saveGasRecord()">保存</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-cancel"
+		onclick="javascript:$('#gasDlg').dialog('close')">取消</a>
 </div>

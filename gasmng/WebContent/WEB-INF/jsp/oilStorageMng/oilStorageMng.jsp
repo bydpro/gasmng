@@ -143,20 +143,24 @@
 	}
 </script>
 <form id="queryOilForm" method="post">
-     <div style="margin-bottom: 7px;">
-		<label for="oilType">油品类型:</label>
-		<input id="cc3" class="easyui-combobox" name="oilType" style="width:200px;height:30px;"
-    			data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'">
-		<label for="oilTankId">油罐编号:</label>
-		<input class="easyui-textbox" type="text" name="oilTankId"  style="width:200px;height:30px;"/>
-		<input class="easyui-linkbutton" type="button" value="查询" style="width:98px;height:30px;
-				margin-left:200px " onclick="doSearch()">
-		<input class="easyui-linkbutton" type="button" value="重置" style="width:98px;height:30px;" onclick="clearForm()"/>
-    </div>
-    
+	<div style="margin-bottom: 7px;">
+		<label for="oilType">油品类型:</label> <input id="cc3"
+			class="easyui-combobox" name="oilType"
+			style="width: 200px; height: 30px;"
+			data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'">
+		<label for="oilTankId">油罐编号:</label> <input class="easyui-textbox"
+			type="text" name="oilTankId" style="width: 200px; height: 30px;" /> <input
+			class="easyui-linkbutton" type="button" value="查询"
+			style="width: 98px; height: 30px; margin-left: 200px"
+			onclick="doSearch()"> <input class="easyui-linkbutton"
+			type="button" value="重置" style="width: 98px; height: 30px;"
+			onclick="clearForm()" />
+	</div>
+
 </form>
 <table id="oildg" title="入库列表" style="width: 1050px; height: 78%;"
-	toolbar="#toolbar4oildg" data-options="
+	toolbar="#toolbar4oildg"
+	data-options="
 				rownumbers:true,
 				singleSelect:true,
 				autoRowHeight:false,
@@ -166,44 +170,58 @@
 	<thead>
 		<tr>
 			<th field="oil_storage_id" width="50" hidden="true">用户名</th>
-			<th field="oil_type" width="50" >油品类型</th>
-			<th field="olil_num" width="50"  align="center">数量</th>
+			<th field="oil_type" width="50">油品类型</th>
+			<th field="olil_num" width="50" align="center">数量</th>
 			<th field="oil_tank_id" width="50" align="center">油罐编号</th>
-			<th field="oil_receive_time" width="50" >入库时间</th>
+			<th field="organname" width="50" align="center">入库地点</th>
+			<th field="oil_receive_time" width="50">入库时间</th>
 		</tr>
 	</thead>
 </table>
 <div id="toolbar4oildg">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addOil()">新增</a> 
-	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editOil()">修改</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delOliStirage()">移除</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+		onclick="addOil()">新增</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-edit" plain="true" onclick="editOil()">修改</a> <a
+		href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+		onclick="delOliStirage()">移除</a>
 </div>
 
-<div id="oilDlg" class="easyui-dialog" style="width:590px;height:300px;padding:10px 20px"
-		closed="true" buttons="#oilDlg-buttons">
+<div id="oilDlg" class="easyui-dialog"
+	style="width: 390px; height: 300px; padding: 10px 20px" closed="true"
+	buttons="#oilDlg-buttons" align="center">
 	<form id="oilForm" method="post">
-		<div  style="margin-bottom: 7px;">
-			<input name="oilStorageId" hidden="true"/>
-			<label>油品类型：</label>
-			<input id="cc" class="easyui-combobox" name="oilType" style="width:200px;height:30px;"
-    			data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'" required="true">
-		</div>
- 		<div style="margin-bottom: 7px;">	
- 			<label>油品数量：</label>
-			<input name="olilNum" class="easyui-numberbox" data-options="required:true" style="width:200px;height:30px;"
-			 precision="0">
- 		</div>
 		<div style="margin-bottom: 7px;">
-			<label>油罐编号：</label>
-			<input name="oilTankId" style="width:200px;height:30px;" class="easyui-validatebox" required="true" >
+			<input name="oilStorageId" hidden="true" /> <label>油品类型：</label> <input
+				id="cc" class="easyui-combobox" name="oilType"
+				style="width: 200px; height: 30px;"
+				data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'"
+				required="true">
 		</div>
 		<div style="margin-bottom: 7px;">
-			<label>入库时间：</label>
-			<input name="oilReceiveTime" style="width:200px;height:30px;" class="easyui-datetimebox" required="true">
+			<label>油品数量：</label> <input name="olilNum" class="easyui-numberbox"
+				data-options="required:true" style="width: 200px; height: 30px;"
+				precision="0">
+		</div>
+		<div style="margin-bottom: 7px;">
+			<label>油罐编号：</label> <input name="oilTankId"
+				style="width: 200px; height: 30px;" class="easyui-validatebox"
+				required="true">
+		</div>
+		<div style="margin-bottom: 7px;">
+			<label>入库时间：</label> <input name="oilReceiveTime"
+				style="width: 200px; height: 30px;" class="easyui-datetimebox"
+				required="true">
+		</div>
+		<div style="margin-bottom: 7px;">
+			<label>入库地点：</label> <input id="cc2" class="easyui-combobox"
+				name="oilPlace" style="width: 200px; height: 30px;"
+				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'" required="true">
 		</div>
 	</form>
 </div>
 <div id="oilDlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveOil()">保存</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#oilDlg').dialog('close')">取消</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+		onclick="saveOil()">保存</a> <a href="#" class="easyui-linkbutton"
+		iconCls="icon-cancel"
+		onclick="javascript:$('#oilDlg').dialog('close')">取消</a>
 </div>
