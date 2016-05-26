@@ -84,6 +84,15 @@
 			return false;
 		}
 	}
+	
+	$.extend($.fn.validatebox.defaults.rules, {    
+	    phoneNum: { //验证手机号   
+	        validator: function(value, param){ 
+	         return /(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(value);
+	        },    
+	        message: '请输入正确的手机号码'   
+	    }
+		});
 </script>
 <form id="myUserForm" method="post">
 	<div style="margin-bottom: 7px;">
@@ -99,8 +108,8 @@
 		<label>电子邮箱</label> <input name="email" class="easyui-validatebox"
 			data-options="required:true,validType:'email'"
 			style="width: 200px; height: 30px;"> <label>移动电话</label> <input
-			name="mobile" style="width: 200px; height: 30px;"
-			data-options="required:true,validType:'mobile'">
+			class="easyui-validatebox" name="mobile" style="width: 200px; height: 30px;"
+			data-options="required:true,validType:'phoneNum'">
 	</div>
 	<div style="margin-bottom: 7px;">
 		<label>所属单位</label> <input id="cc" class="easyui-combobox"

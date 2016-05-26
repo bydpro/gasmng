@@ -208,7 +208,7 @@
 		$('#submitForm').form('clear');
 	}
 </script>
-<form id="organFf" method="post">
+<form id="organFf" method="post" style="margin-top: 20px;">
 	<div style="margin-bottom: 7px;">
 		<label for="organName">单位名称:</label> <input class="easyui-textbox"
 			type="text" name="organName" style="width: 200px; height: 30px;" /> <label
@@ -258,7 +258,7 @@
 
 <div id="organDlg" class="easyui-dialog"
 	style="width: 390px; height: 300px; padding: 10px 20px" closed="true"
-	buttons="#organDlg-buttons" align="center">
+	buttons="#organDlg-buttons" align="center" modal="true">
 	<form id="submitForm" method="post">
 		<div style="margin-bottom: 7px;">
 			<input name="organId" hidden="true" /> <label>单位名称：</label> <input

@@ -3,15 +3,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="shortcut icon" href="./image/gas.ico" type="image/x-icon" />
 <meta charset="utf-8" />
 <title>加油站进销管理系统</title>
+<link href="./css/bootstrap.min.css" rel="stylesheet" />
 <link href="./css/easyui.css" rel="stylesheet" />
 <link href="./css/themes/metro-blue/easyui.css" rel="stylesheet" />
 <link href="./css/icon.css" rel="stylesheet" />
-<link href="./css/bootstrap.min.css" rel="stylesheet" />
+
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="./js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./js/json2.js"></script>
 <script type="text/javascript" src="./js/easyui-lang-zh_CN.js"></script>
 <style>
@@ -63,8 +64,15 @@ $(function () {
 		attributes : {
 			url : "oilStorage//enterGasRecord.do"
 		},
-		iconCls:"icon-record_blue"
-	} ];
+		iconCls:"icon-gas_record"
+	}, 
+	{
+		text : "油品价格管理",
+		attributes : {
+			url : "oilStorage/enteGasPriceMng.do"
+		},
+		iconCls:"icon-gasprice"
+	}];
 	var tree3Data = [ {
 		text : "修改个人信息",
 		attributes : {
@@ -191,9 +199,9 @@ function loginOut(){
 </script>
 </head>
 <body class="easyui-layout">
-	<div region="north" class="north" border="true">
+	<div region="north" class="north" border="true" style="height: 60px;background-image:url(./image/head_pic.jpg); background-repeat:no-repeat;">
 		<div align="right">
-			<form>
+			<form style="margin-top: 20px;">
 				<label>欢迎你,超级管理员：</label> <label>${username}</label>&nbsp;&nbsp;<a
 					href="javascript:void(0)" onclick="loginOut()">退出</a>
 			</form>

@@ -129,11 +129,16 @@
 		});
 	}
 	
+
+	function formatValue(val, row) {
+		return '$'+val;
+	}
+
 	function addOil() {
 		$('#oilDlg').dialog('open').dialog('setTitle', '入库');
 		$('#oilForm').form('clear');
 	}
-	
+
 	function clearForm() {
 		$('#queryOilForm').form('clear');
 	}
@@ -142,12 +147,12 @@
 		getData();
 	}
 </script>
-<form id="queryOilForm" method="post">
+<form id="queryOilForm" method="post" style="margin-top: 20px;">
 	<div style="margin-bottom: 7px;">
 		<label for="oilType">油品类型:</label> <input id="cc3"
 			class="easyui-combobox" name="oilType"
 			style="width: 200px; height: 30px;"
-			data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'">
+			data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do',editable:false">
 		<label for="oilTankId">油罐编号:</label> <input class="easyui-textbox"
 			type="text" name="oilTankId" style="width: 200px; height: 30px;" /> <input
 			class="easyui-linkbutton" type="button" value="查询"
@@ -171,7 +176,8 @@
 		<tr>
 			<th field="oil_storage_id" width="50" hidden="true">用户名</th>
 			<th field="oil_type" width="50">油品类型</th>
-			<th field="olil_num" width="50" align="center">数量</th>
+			<th field=olil_num width="50" align="center">油品数量</th>
+			<th field="oil_price" width="50" align="center" formatter="formatValue">油品价格</th>
 			<th field="oil_tank_id" width="50" align="center">油罐编号</th>
 			<th field="organname" width="50" align="center">入库地点</th>
 			<th field="oil_receive_time" width="50">入库时间</th>
@@ -187,20 +193,25 @@
 </div>
 
 <div id="oilDlg" class="easyui-dialog"
-	style="width: 390px; height: 300px; padding: 10px 20px" closed="true"
-	buttons="#oilDlg-buttons" align="center">
+	style="width: 390px; height: 340px; padding: 10px 20px" closed="true"
+	buttons="#oilDlg-buttons" align="center" modal="true">
 	<form id="oilForm" method="post">
 		<div style="margin-bottom: 7px;">
 			<input name="oilStorageId" hidden="true" /> <label>油品类型：</label> <input
 				id="cc" class="easyui-combobox" name="oilType"
 				style="width: 200px; height: 30px;"
-				data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'"
+				data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do',editable:false"
 				required="true">
 		</div>
 		<div style="margin-bottom: 7px;">
 			<label>油品数量：</label> <input name="olilNum" class="easyui-numberbox"
 				data-options="required:true" style="width: 200px; height: 30px;"
 				precision="0">
+		</div>
+		<div style="margin-bottom: 7px;">
+			<label>油品价格：</label> <input name="oliPrice" class="easyui-numberbox"
+				data-options="required:true,groupSeparator:',',decimalSeparator:'.',prefix:'$'" style="width: 200px; height: 30px;"
+				precision="2">
 		</div>
 		<div style="margin-bottom: 7px;">
 			<label>油罐编号：</label> <input name="oilTankId"
@@ -215,7 +226,7 @@
 		<div style="margin-bottom: 7px;">
 			<label>入库地点：</label> <input id="cc2" class="easyui-combobox"
 				name="oilPlace" style="width: 200px; height: 30px;"
-				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'" required="true">
+				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do',editable:false" required="true">
 		</div>
 	</form>
 </div>

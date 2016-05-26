@@ -33,8 +33,20 @@
 	}
 	
 	function addUser(){
+	
 		$('#dlg').dialog('open').dialog('setTitle','新增用户');
 		$('#fm').form('clear');
+		$('[name="userType"]:radio').each(function() {   
+            if (this.value == '1'){   
+               this.checked = true;   
+            }       
+         }); 
+		
+		$('[name="sex"]:radio').each(function() {   
+            if (this.value == '1'){   
+               this.checked = true;   
+            }       
+         }); 
 	}
 	
 	/* 修改用户 */
@@ -305,8 +317,17 @@ $(function() {
 			$.messager.alert('提示','请选中一行!');
 		}
 	}
+	
+	$.extend($.fn.validatebox.defaults.rules, {    
+	    phoneNum: { //验证手机号   
+	        validator: function(value, param){ 
+	         return /(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(value);
+	        },    
+	        message: '请输入正确的手机号码'   
+	    }
+		});
 </script>
-<form id="ff" method="post">
+<form id="ff" method="post" style="margin-top: 20px;">
 	<div style="margin-bottom: 7px">
 		<label for="username">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label>
 		<input class="easyui-textbox" type="text" name="userName"
@@ -317,7 +338,7 @@ $(function() {
 			style="width: 200px; height: 30px;" /> <label for="organId">所属单位:</label>
 		<input id="cc" class="easyui-combobox" name="organId"
 			style="width: 200px; height: 30px;"
-			data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'">
+			data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do',editable:false">
 	</div>
 	<div style="margin-bottom: 7px;">
 		<label for="loginId">用户卡号:</label> <input class="easyui-textbox"
@@ -325,12 +346,14 @@ $(function() {
 		<span class="radioSpan"> <input type="radio" name="isValid"
 			value="1">是</input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
 			name="isValid" value="0">否</input>
-		</span> <label style="margin-left: 125px">是否为管理员:</label> <span
-			class="radioSpan"> <input type="radio" name="isAdmin"
-			value="1">是</input>&nbsp;&nbsp;&nbsp; <input type="radio"
-			name="isAdmin" value="0">否</input>
+		</span> <label style="margin-left: 125px">用户类型:</label> <span class="radioSpan"> <input
+				type="radio" name="userType" value="1">普通用户</input>&nbsp;&nbsp;&nbsp; <input
+				type="radio" name="userType" value="2">普通管理员</input>
+				&nbsp;&nbsp;&nbsp;
+				 <input	type="radio" name="userType" value="3">超级管理员</input>
+			</span>
 		</span> <input class="easyui-linkbutton" type="button" value="查询"
-			style="width: 98px; height: 30px; margin-left: 175px"
+			style="width: 98px; height: 30px; margin-left: 25px"
 			onclick="doSearch()"> <input class="easyui-linkbutton"
 			type="button" value="重置" style="width: 98px; height: 30px;"
 			onclick="clearForm()" /> <input type="text" name="pageNum"
@@ -360,7 +383,6 @@ $(function() {
 			<th field="MOBILE" width="50" align="center">移动电话</th>
 			<th field="ORGANNAME" width="50">所属单位</th>
 			<th field="ISVALID" width="50" formatter="formatValue" align="center">是否有效</th>
-			<th field="ISADMIN" width="50" formatter="formatValue" align="center">是否管理员</th>
 		</tr>
 	</thead>
 </table>
@@ -382,7 +404,7 @@ $(function() {
 
 <div id="dlg" class="easyui-dialog"
 	style="width: 590px; height: 300px; padding: 10px 20px" closed="true"
-	buttons="#dlg-buttons">
+	buttons="#dlg-buttons" modal="true">
 	<form id="fm" method="post">
 		<div style="margin-bottom: 7px;">
 			<input name="userId" hidden="true" /> <label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
@@ -398,14 +420,15 @@ $(function() {
 				data-options="required:true,validType:'email'"
 				style="width: 200px; height: 30px;"> <label>移动电话</label> <input
 				name="mobile" style="width: 200px; height: 30px;"
-				data-options="required:true,validType:'mobile'">
+				data-options="required:true,validType:'phoneNum'" class="easyui-validatebox">
 		</div>
 		<div style="margin-bottom: 7px;">
 			<label>所属单位</label> <input id="cc2" class="easyui-combobox"
 				name="organId" style="width: 200px; height: 30px;"
-				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'">
+				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do',editable:false"
+				required="true">
 			<label>生日日期</label> <input type="text" class="easyui-datebox"
-				style="width: 200px; height: 30px;" name="birhtday">
+				style="width: 200px; height: 30px;" name="birhtday" required="true">
 		</div>
 		<div style="margin-bottom: 7px;">
 			<label>住&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label> <input
@@ -413,9 +436,11 @@ $(function() {
 				style="width: 455px; height: 30px;">
 		</div>
 		<div style="margin-bottom: 7px;">
-			<label>是否为管理员:</label> <span class="radioSpan"> <input
-				type="radio" name="isAdmin" value="1">是</input>&nbsp;&nbsp;&nbsp; <input
-				type="radio" name="isAdmin" value="0">否</input>
+			<label>用户类型:</label> <span class="radioSpan"> <input
+				type="radio" name="userType" value="1">普通用户</input>&nbsp;&nbsp;&nbsp; <input
+				type="radio" name="userType" value="2">普通管理员</input>
+				&nbsp;&nbsp;&nbsp;
+				 <input	type="radio" name="userType" value="3">超级管理员</input>
 			</span>
 		</div>
 	</form>

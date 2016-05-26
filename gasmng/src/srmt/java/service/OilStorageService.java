@@ -230,4 +230,25 @@ public class OilStorageService {
 		map.put("useTotalPre", (totalNum-leaveTotal)/totalNum);
 		return map;
 	}
+	
+	public List<Map> queryGasPriceList(HttpServletRequest request) {
+		List<Map> list = oilDao.queryGasPriceList(request);
+		return list;
+	}
+	
+	public void saveOliPrice(HttpServletRequest request){
+		 oilDao.saveOliPrice(request);
+	}
+	
+	public void delGasPrice(String gasPriceId){
+		 oilDao.delGasPrice(gasPriceId);
+	}
+	
+	public Map getGasPriceInfo(String oilStorageId){
+		return oilDao.getGasPriceInfo(oilStorageId);
+	}
+
+	public Map getGasPrice4gasType(String gasType){
+		return oilDao.getGasPrice4gasType(gasType);
+	}
 }

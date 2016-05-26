@@ -46,7 +46,7 @@ public class UserDao {
 		String organId = request.getParameter("organId");
 		String userNum = request.getParameter("userNum");
 		String isValid = request.getParameter("isValid");
-		String isAdmin = request.getParameter("isAdmin");
+		String userType = request.getParameter("userType");
 
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT                                               		");
@@ -85,16 +85,11 @@ public class UserDao {
 				sb.append("  and su.IS_VALID != :isValid or su.IS_VALID is null     ");
 			}
 		}
-		if (StringUtils.isNotEmpty(isAdmin)) {
-			if (isAdmin.equals(Constants.YES)) {
-				sb.append("  and su.is_admin = :isAdmin       ");
-			} else {
-				isAdmin = Constants.YES;
-				sb.append("  and su.is_admin != :isAdmin or su.is_admin is null     ");
-			}
-		}
 		if (StringUtils.isNotEmpty(userNum)) {
 			sb.append(" and su.USER_NUM = :userNum   ");
+		}
+		if (StringUtils.isNotEmpty(userType)) {
+			sb.append(" and su.user_type = :userType   ");
 		}
 		Transaction transaction = getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
@@ -112,8 +107,8 @@ public class UserDao {
 		if (StringUtils.isNotEmpty(organId)) {
 			query.setParameter("organId", organId);
 		}
-		if (StringUtils.isNotEmpty(isAdmin)) {
-			query.setParameter("isAdmin", isAdmin);
+		if (StringUtils.isNotEmpty(userType)) {
+			query.setParameter("userType", userType);
 		}
 		if (StringUtils.isNotEmpty(isValid)) {
 			query.setParameter("isValid", isValid);
@@ -153,7 +148,7 @@ public class UserDao {
 		String organId = request.getParameter("organId");
 		String birhtdayStr = request.getParameter("birhtday");
 		String address = request.getParameter("address");
-		String isAdmin = request.getParameter("isAdmin");
+		String userType = request.getParameter("userType");
 
 		Map result = new HashMap();
 		if (isExitEmail(email, userId)) {
@@ -184,12 +179,7 @@ public class UserDao {
 			sysUser.setMobile(mobile);
 			sysUser.setOrganId(organId);
 			sysUser.setAdress(address);
-			sysUser.setIsAdmin(isAdmin);
-			if (Constants.YES.equals(isAdmin)) {
-				sysUser.setUserType(Constants.USER_TYPE_ADMIN);
-			} else {
-				sysUser.setUserType(Constants.USER_TYPE_NORMAL);
-			}
+			sysUser.setUserType(userType);
 			sysUser.setBirthday(birthday);
 			getSession().update(sysUser);
 		} else {
@@ -200,13 +190,9 @@ public class UserDao {
 			sysUser.setMobile(mobile);
 			sysUser.setOrganId(organId);
 			sysUser.setAdress(address);
-			sysUser.setIsAdmin(isAdmin);
+			sysUser.setUserType(userType);
 			sysUser.setUserNum(getUserNum());
-			if (Constants.YES.equals(isAdmin)) {
-				sysUser.setUserType(Constants.USER_TYPE_ADMIN);
-			} else {
-				sysUser.setUserType(Constants.USER_TYPE_NORMAL);
-			}
+			sysUser.setUserType(userType);
 			sysUser.setIsValid(Constants.YES);
 			sysUser.setBirthday(birthday);
 			sysUser.setPassword(MyUtil.getMd5(Constants.DEFULT_PASSWORD));
@@ -235,7 +221,7 @@ public class UserDao {
 			userMap.put("mobile", sysUser.getMobile());
 			userMap.put("organId", sysUser.getOrganId());
 			userMap.put("sex", sysUser.getSex());
-			userMap.put("isAdmin", sysUser.getIsAdmin());
+			userMap.put("userType", sysUser.getUserType());
 			userMap.put("birhtday", sysUser.getBirthday());
 		}
 		transaction.commit();

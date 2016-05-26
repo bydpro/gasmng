@@ -161,3 +161,15 @@
 .icon-large-chart {
 	background: url('icons/large_chart.png') no-repeat center center;
 }
+.icon-gasprice {
+	background: url('icons/gasprice.png') no-repeat center center;
+}
+.icon-gas_record {
+	background: url('icons/gas_record.png') no-repeat center center;
+}
+.icon-my_gas_record {
+	background: url('icons/my_gas_record.png') no-repeat center center;
+}
+.icon-account_balance {
+	background: url('icons/account_balance.png') no-repeat center center;
+}

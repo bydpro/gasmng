@@ -23,6 +23,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import srmt.java.common.Constants;
+import srmt.java.entity.GasPrice;
 import srmt.java.entity.GasRecord;
 import srmt.java.entity.OilStorage;
 import srmt.java.entity.SysUser;
@@ -46,7 +47,7 @@ public class OilDao {
 		String oilType = request.getParameter("oilType");
 		String oilTankId = request.getParameter("oilTankId");
 		StringBuffer sb = new StringBuffer();
-		sb.append(" SELECT o.oil_tank_id,o.oil_storage_id, "
+		sb.append(" SELECT o.oil_tank_id,o.oil_storage_id,o.oil_price, "
 				+ "(select s.dict_name from sys_dict s where s.dict_value= o.oil_type) oil_type,o.olil_num,"
 				+ "DATE_FORMAT(o.oil_receive_time,'%Y-%m-%d %H:%i')  "
 				+ "oil_receive_time ,(select so.organ_name from sys_organ so where so.organ_id =o.oil_ru_place) organname"
@@ -83,6 +84,7 @@ public class OilDao {
 		String oilTankId = request.getParameter("oilTankId");
 		String oilReceiveTime = request.getParameter("oilReceiveTime");
 		String oilPlace = request.getParameter("oilPlace");
+		String oilPrice = request.getParameter("oliPrice");
 		String userId = (String) session.getAttribute("userId");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date oilReceiveDate = null;
@@ -93,6 +95,7 @@ public class OilDao {
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
+		double oilPriceDou = Double.parseDouble(oilPrice);
 		Transaction transaction = getSession().beginTransaction();
 		if (StringUtils.isNotEmpty(oilStorageId)) {
 			OilStorage oilStorage = getSession().get(OilStorage.class, oilStorageId);
@@ -103,6 +106,7 @@ public class OilDao {
 			oilStorage.setCeraterDate(new Date());
 			oilStorage.setCreater(userId);
 			oilStorage.setOilRuPlace(oilPlace);
+			oilStorage.setOilPrice(oilPriceDou);
 			getSession().update(oilStorage);
 		} else {
 			OilStorage oilStorage = new OilStorage();
@@ -111,6 +115,7 @@ public class OilDao {
 			oilStorage.setOilType(oilType);
 			oilStorage.setOilTankId(oilTankId);
 			oilStorage.setOilRuPlace(oilPlace);
+			oilStorage.setOilPrice(oilPriceDou);
 			getSession().save(oilStorage);
 		}
 		transaction.commit();
@@ -133,6 +138,7 @@ public class OilDao {
 			oilMap.put("oilTankId", oilStorage.getOilTankId());
 			oilMap.put("oilReceiveTime", oilStorage.getOilReceiveTime().toString());
 			oilMap.put("oilPlace", oilStorage.getOilRuPlace());
+			oilMap.put("oliPrice", oilStorage.getOilPrice());
 		}
 		transaction.commit();
 		getSession().close();
@@ -179,6 +185,8 @@ public class OilDao {
 		String email = request.getParameter("email");
 		String mobile = request.getParameter("mobile");
 		String userNum = request.getParameter("userNum");
+		String gasType = request.getParameter("gasType");
+		String organId = request.getParameter("organId");
 		StringBuffer sb = new StringBuffer();
 		sb.append("  SELECT                                                 ");
 		sb.append("  	g.gas_id gasid,                                     ");
@@ -203,8 +211,14 @@ public class OilDao {
 		if (StringUtils.isNotEmpty(mobile)) {
 			sb.append(" and s.mobile = :mobile   ");
 		}
+		if (StringUtils.isNotEmpty(gasType)) {
+			sb.append(" and g.gas_type= :gasType   ");
+		}
 		if (StringUtils.isNotEmpty(userNum)) {
 			sb.append(" and g.gas_user_num = :userNum   ");
+		}
+		if (StringUtils.isNotEmpty(organId)) {
+			sb.append(" and s.organ_id= :organId   ");
 		}
 		getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
@@ -222,6 +236,12 @@ public class OilDao {
 		}
 		if (StringUtils.isNotEmpty(userNum)) {
 			query.setParameter("userNum", userNum);
+		}
+		if (StringUtils.isNotEmpty(gasType)) {
+			query.setParameter("gasType", gasType);
+		}
+		if (StringUtils.isNotEmpty(organId)) {
+			query.setParameter("organId", organId);
 		}
 		List<Map> queryList = query.list();
 		return queryList;
@@ -455,6 +475,88 @@ public class OilDao {
 			totalMap = totalList.get(0);
 			oilTotal = (Double) totalMap.get("gasvolume");
 		}
+		
+		
 		return oilTotal;
+	}
+	
+	public List<Map> queryGasPriceList(HttpServletRequest request) {
+		getSession().beginTransaction();
+		String gasType = request.getParameter("gasType");
+		StringBuilder sb = new StringBuilder();
+		sb.append("select g.gas_price_id gaspriceid,(select s.dict_name from sys_dict s where s.dict_value= g.gas_type) gas_type, ");
+		sb.append(" g.gas_price,DATE_FORMAT(g.gas_price_time,'%Y-%m-%d %H:%i') gas_price_time from gas_price g  where 1=1 ");
+		if(StringUtils.isNotEmpty(gasType)){
+			sb.append("  and g.gas_type=:gasType ");
+		}
+		sb.append(" order by gas_type,g.gas_price_time asc  ");
+		SQLQuery query = getSession().createSQLQuery(sb.toString());
+		if(StringUtils.isNotEmpty(gasType)){
+			query.setParameter("gasType", gasType);
+		}
+		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		List<Map> list = query.list();
+		return list;
+	}
+	public void saveOliPrice(HttpServletRequest request) {
+		Transaction transaction = getSession().beginTransaction();
+		String gasPriceId = request.getParameter("gasPriceId");
+		String gasType = request.getParameter("gasType");
+		String gasPrice = request.getParameter("gasPrice");
+		double price = Double.parseDouble(gasPrice);
+		if(StringUtils.isEmpty(gasPriceId)){
+			GasPrice gasPrices = new GasPrice();
+			gasPrices.setGasPrice(price);
+			gasPrices.setGasType(gasType);
+			Timestamp ts = new Timestamp(System.currentTimeMillis());
+			gasPrices.setGasPriceTime(ts);
+			getSession().save(gasPrices);
+		}else{
+			GasPrice gasPrices = getSession().get(GasPrice.class, gasPriceId);
+			gasPrices.setGasPrice(price);
+			gasPrices.setGasType(gasType);
+			Timestamp ts = new Timestamp(System.currentTimeMillis());
+			gasPrices.setGasPriceTime(ts);
+			getSession().update(gasPrices);
+		}
+		transaction.commit();
+	}
+	
+	public void delGasPrice(String gasPriceId){
+		Transaction transaction = getSession().beginTransaction();
+		GasPrice gasPrice = getSession().get(GasPrice.class, gasPriceId);
+		getSession().delete(gasPrice);
+		transaction.commit();
+	}
+	
+	
+	
+	public Map getGasPriceInfo(String gasPriceId) {
+		Transaction transaction = getSession().beginTransaction();
+		Map oilMap = new HashMap<>();
+		if (StringUtils.isNoneEmpty(gasPriceId)) {
+			GasPrice gasPrice = getSession().get(GasPrice.class, gasPriceId);
+			oilMap.put("gasPriceId", gasPriceId);
+			oilMap.put("gasPrice",gasPrice.getGasPrice());
+			oilMap.put("gasType", gasPrice.getGasType());
+		}
+		transaction.commit();
+		getSession().close();
+		return oilMap;
+	}
+	
+	public Map getGasPrice4gasType(String gasType){
+		getSession().beginTransaction();
+		String sql = "select g.gas_price  from gas_price g where g.gas_type = :gasType order by g.gas_price_time desc ";
+		SQLQuery query = getSession().createSQLQuery(sql);
+		query.setParameter("gasType", gasType);
+		List<Double> list = query.list();
+		double price = 0;
+		if(!list.isEmpty()){
+			price = list.get(0);
+		}
+		Map priceMap = new HashMap<>();
+		priceMap.put("price", price);
+		return priceMap;
 	}
 }

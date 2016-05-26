@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <head>
+<link rel="shortcut icon" href="./image/gas.ico" type="image/x-icon" />
 <meta charset="utf-8" />
 <title>登陆</title>
 <link href="./css/easyui.css" rel="stylesheet" />

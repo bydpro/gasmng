@@ -7,5 +7,6 @@
 		<class>srmt.java.entity.SysUser</class>
 		<class>srmt.java.entity.OilStorage</class>
 		<class>srmt.java.entity.GasRecord</class>
+		<class>srmt.java.entity.GasPrice</class>
 	</persistence-unit>
 </persistence>

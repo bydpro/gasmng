@@ -226,4 +226,51 @@ public class OilStorageController {
 		Map  map= oilStorageService.queryOilStorage4All(request);
 		return map;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/queryGasPriceList.do")
+	public List<Map> queryGasPriceList(HttpServletRequest request) {
+		List<Map> list = oilStorageService.queryGasPriceList(request);
+		return list;
+	}
+	
+	@RequestMapping("/enteGasPriceMng.do")
+	public ModelAndView enteGasPriceMng() {
+
+		return new ModelAndView("gas/gasPriceMng");
+	}
+	
+	@ResponseBody
+	@RequestMapping("/saveOliPrice.do")
+	public Map saveOliPrice(HttpServletRequest request){
+		oilStorageService.saveOliPrice(request);
+		Map map = new HashMap();
+		map.put("success", true);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/delGasPrice.do")
+	public Map delGasPrice(HttpServletRequest request){
+		String gasPriceId = request.getParameter("gasPriceId");
+		oilStorageService.delGasPrice(gasPriceId);
+		Map map = new HashMap();
+		map.put("success", true);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getGasPriceInfo.do")
+	public Map getGasPriceInfo(HttpServletRequest request){
+		String gasPriceId = request.getParameter("gasPriceId");
+		return oilStorageService.getGasPriceInfo(gasPriceId);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/getGasPrice4gasType.do")
+	public Map getGasPrice4gasType(HttpServletRequest request){
+		String gasType = request.getParameter("gasType");
+		return oilStorageService.getGasPrice4gasType(gasType);
+	}
+	
 }

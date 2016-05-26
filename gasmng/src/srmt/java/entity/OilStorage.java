@@ -45,9 +45,23 @@ public class OilStorage implements Serializable {
 
 	@Column(name="olil_num")
 	private Integer olilNum;
+	
+	@Column(name="oil_price")
+	private Double oilPrice;
 
 	public OilStorage() {
 	}
+	
+
+	public Double getOilPrice() {
+		return oilPrice;
+	}
+
+
+	public void setOilPrice(Double oilPrice) {
+		this.oilPrice = oilPrice;
+	}
+
 
 	public String getOilRuPlace() {
 		return oilRuPlace;

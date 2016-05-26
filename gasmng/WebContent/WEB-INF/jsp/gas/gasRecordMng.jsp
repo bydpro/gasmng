@@ -141,10 +141,25 @@
 			$.messager.alert('提示', '请选中一行!');
 		}
 	}
+	
+	function setOilPrice(rec){
+		$.ajax({
+			type : "POST",
+			dataType : "json",
+			url : "oilStorage/getGasPrice4gasType.do",
+			data : {
+				gasType : rec.dictvalue
+			},
+			async : true,
+			success : function(data) {
+				$('#gasPrice').numberbox('setValue', data.price);
+			}
+		})
+	}
 </script>
-<form id="gasFf" method="post">
+<form id="gasFf" method="post" style="margin-top: 20px;">
 	<div style="margin-bottom: 7px">
-		<label for="username">姓&nbsp;&nbsp;&nbsp;&nbsp;名:</label> <input
+		<label for="username">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label> <input
 			class="easyui-textbox" type="text" name="userName"
 			style="width: 200px; height: 30px;" /> <label for="email">电子邮箱:</label>
 		<input class="easyui-textbox" type="text" name="email"
@@ -155,8 +170,18 @@
 			style="width: 200px; height: 30px;" />
 	</div>
 	<div style="margin-bottom: 7px">
+		<label for="gasType">油品类型:</label> <input
+				class="easyui-combobox" name="gasType" 
+				style="width: 200px; height: 30px;"
+				data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do',editable:false"
+				>
+		<label>加油地点:</label> <input 
+				class="easyui-combobox" name="organId"
+				style="width: 200px; height: 30px;"
+				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do',editable:false"
+				>
 		<input class="easyui-linkbutton" type="button" value="查询"
-			style="width: 98px; height: 30px; margin-left: 810px"
+			style="width: 98px; height: 30px; margin-left: 300px"
 			onclick="doSearch()"> <input class="easyui-linkbutton"
 			type="button" value="重置" style="width: 98px; height: 30px;"
 			onclick="clearForm()" />
@@ -173,10 +198,10 @@
 				pageSize:10">
 	<thead>
 		<tr>
+			<th field="gasusernum" width="60" align="center">卡号</th>
 			<th field="username" width="60" align="center">加油人</th>
 			<th field="email" width="60" align="center">加油人邮箱</th>
 			<th field="organName" width="60" align="center">加油地点</th>
-			<th field="gasusernum" width="60" align="center">卡号</th>
 			<th field="gasid" width="50" hidden="true"></th>
 			<th field="gastype" width="50" align="center">油品类型</th>
 			<th field="gasprice" width="50">油价</th>
@@ -195,7 +220,7 @@
 </div>
 <div id="gasDlg" class="easyui-dialog"
 	style="width: 490px; height: 280px; padding: 10px 20px" closed="true"
-	buttons="#gasDlg-buttons" align="center">
+	buttons="#gasDlg-buttons" align="center" modal="true">
 	<form id="gasForm" method="post">
 		<div style="margin-bottom: 7px;">
 			<input name="gasId" hidden="true" /> <label>卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号&nbsp:</label>
@@ -205,14 +230,14 @@
 		</div>
 		<div style="margin-bottom: 7px;">
 			<label for="gasType">油&nbsp;品&nbsp;类&nbsp;型:</label> <input id="cc3"
-				class="easyui-combobox" name="gasType"
+				class="easyui-combobox" name="gasType" id="gasType"
 				style="width: 200px; height: 30px;"
-				data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do'"
+				data-options="valueField:'dictvalue',textField:'dictname',url:'oilStorage/queryOilType.do',editable:false,onSelect:setOilPrice"
 				required="true">
 		</div>
 		<div style="margin-bottom: 7px;">
 			<label>油&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价&nbsp;:</label>
-			<input name="gasPrice" style="width: 200px; height: 30px;"
+			<input name="gasPrice" style="width: 200px; height: 30px;" id="gasPrice"
 				required="true" class="easyui-numberbox"
 				data-options="precision:2,groupSeparator:',',decimalSeparator:'.',prefix:'$'">
 		</div>
@@ -225,7 +250,7 @@
 			<label>加&nbsp;油&nbsp;地&nbsp;点:</label> <input id="cc2"
 				class="easyui-combobox" name="organId"
 				style="width: 200px; height: 30px;"
-				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do'"
+				data-options="valueField:'ORGANID',textField:'ORGANNAME',url:'organMng/queryOragn.do',editable:false"
 				required="true">
 		</div>
 	</form>
