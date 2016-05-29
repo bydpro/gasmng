@@ -347,10 +347,10 @@ $(function() {
 			value="1">是</input>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio"
 			name="isValid" value="0">否</input>
 		</span> <label style="margin-left: 125px">用户类型:</label> <span class="radioSpan"> <input
-				type="radio" name="userType" value="1">普通用户</input>&nbsp;&nbsp;&nbsp; <input
-				type="radio" name="userType" value="2">普通管理员</input>
+				type="radio" name="userTyp" value="1">普通用户</input>&nbsp;&nbsp;&nbsp; <input
+				type="radio" name="userTyp" value="2">普通管理员</input>
 				&nbsp;&nbsp;&nbsp;
-				 <input	type="radio" name="userType" value="3">超级管理员</input>
+				 <input	type="radio" name="userTyp" value="3">超级管理员</input>
 			</span>
 		</span> <input class="easyui-linkbutton" type="button" value="查询"
 			style="width: 98px; height: 30px; margin-left: 25px"

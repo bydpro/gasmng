@@ -46,7 +46,7 @@ public class UserDao {
 		String organId = request.getParameter("organId");
 		String userNum = request.getParameter("userNum");
 		String isValid = request.getParameter("isValid");
-		String userType = request.getParameter("userType");
+		String userType = request.getParameter("userTyp");
 
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT                                               		");

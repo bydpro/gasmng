@@ -46,12 +46,18 @@ public class OilDao {
 	public List<Map> queryOilStorage(HttpServletRequest request) {
 		String oilType = request.getParameter("oilType");
 		String oilTankId = request.getParameter("oilTankId");
+		HttpSession session = request.getSession();
+		String organIdStr =(String) session.getAttribute("organId");
+		String userType = (String)session.getAttribute("userType");
 		StringBuffer sb = new StringBuffer();
 		sb.append(" SELECT o.oil_tank_id,o.oil_storage_id,o.oil_price, "
 				+ "(select s.dict_name from sys_dict s where s.dict_value= o.oil_type) oil_type,o.olil_num,"
 				+ "DATE_FORMAT(o.oil_receive_time,'%Y-%m-%d %H:%i')  "
 				+ "oil_receive_time ,(select so.organ_name from sys_organ so where so.organ_id =o.oil_ru_place) organname"
 				+ " from oil_storage    o       where 1=1        						");
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			sb.append(" AND o.oil_ru_place IN (SELECT ORGAN_ID FROM SYS_ORGAN SO WHERE SO.ORGAN_ID=:organIdStr or SO.PARENT=:organIdStr)  ");
+		}
 		if (StringUtils.isNotEmpty(oilType)) {
 			sb.append(" and o.oil_type = :oilType   ");
 		}
@@ -65,6 +71,9 @@ public class OilDao {
 		}
 		if (StringUtils.isNotEmpty(oilTankId)) {
 			query.setParameter("oilTankId", oilTankId);
+		}
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			query.setParameter("organIdStr", organIdStr);
 		}
 		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		List<Map> queryList = query.list();
@@ -187,6 +196,9 @@ public class OilDao {
 		String userNum = request.getParameter("userNum");
 		String gasType = request.getParameter("gasType");
 		String organId = request.getParameter("organId");
+		HttpSession session = request.getSession();
+		String organIdStr =(String) session.getAttribute("organId");
+		String userType = (String)session.getAttribute("userType");
 		StringBuffer sb = new StringBuffer();
 		sb.append("  SELECT                                                 ");
 		sb.append("  	g.gas_id gasid,                                     ");
@@ -202,6 +214,9 @@ public class OilDao {
 		sb.append("  FROM                                                   ");
 		sb.append("  	gas_record g                                        ");
 		sb.append("  LEFT JOIN sys_user s ON g.gas_user_num = s.user_num    where 1=1 ");
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			sb.append(" AND g.gas_place IN (SELECT ORGAN_ID FROM SYS_ORGAN SO WHERE SO.ORGAN_ID=:organIdStr or SO.PARENT=:organIdStr)  ");
+		}
 		if (StringUtils.isNotEmpty(userName)) {
 			sb.append(" and s.USERNAME like :userName   ");
 		}
@@ -218,7 +233,7 @@ public class OilDao {
 			sb.append(" and g.gas_user_num = :userNum   ");
 		}
 		if (StringUtils.isNotEmpty(organId)) {
-			sb.append(" and s.organ_id= :organId   ");
+			sb.append(" and g.gas_place= :organId   ");
 		}
 		getSession().beginTransaction();
 		SQLQuery query = getSession().createSQLQuery(sb.toString());
@@ -242,6 +257,9 @@ public class OilDao {
 		}
 		if (StringUtils.isNotEmpty(organId)) {
 			query.setParameter("organId", organId);
+		}
+		if(Constants.USER_TYPE_ADMIN.equals(userType)){
+			query.setParameter("organIdStr", organIdStr);
 		}
 		List<Map> queryList = query.list();
 		return queryList;
